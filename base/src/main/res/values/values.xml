@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NavigationBar">
+        <attr name="navigationBarStyle" format="reference" />
+        <attr name="navItemNameSize" format="dimension|reference" />
+        <attr name="navItemNameUncheckedColor" format="color|reference" />
+        <attr name="navItemNameCheckedColor" format="color|reference" />
+        <attr name="navItemNameFontPath" format="string|reference" />
+        <attr name="navItemNameIconPadding" format="dimension|reference" />
+        <attr name="navBarTopLineColor" format="color|reference" />
+        <attr name="navBarTopLineHeight" format="dimension|reference" />
+        <attr name="navBarItemNameArray" format="reference" />
+        <attr name="navBarItemCheckedDrawableArray" format="reference" />
+        <attr name="navBarItemUncheckDrawableArray" format="reference" />
+    </declare-styleable>
+
+    <dimen name="default_nav_item_name_size">14sp</dimen>
+    <dimen name="default_nav_item_name_icon_padding">4dp</dimen>
+    <dimen name="default_nav_bar_top_line_height">1dp</dimen>
+    <color name="default_nav_bar_top_line_color">#404040</color>
+    <color name="default_nav_item_unchecked_color">#9f9f9f</color>
+    <color name="default_nav_item_checked_color">#FC762D</color>
+
+    <color name="nav_top_line_color">#51333333</color>
+
+    <string-array name="default_nav_bar_item_name_array">
+        <item>@string/default_nav_item_name_1</item>
+        <item>@string/default_nav_item_name_2</item>
+        <item>@string/default_nav_item_name_3</item>
+        <item>@string/default_nav_item_name_4</item>
+    </string-array>
+
+    <string name="default_nav_item_name_1">页面一</string>
+    <string name="default_nav_item_name_2">页面二</string>
+    <string name="default_nav_item_name_3">页面三</string>
+    <string name="default_nav_item_name_4">页面四</string>
+
+    <integer-array name="default_nav_bar_item_uncheck_drawable_array">
+        <item>@drawable/ic_uncheck</item>
+        <item>@drawable/ic_uncheck</item>
+        <item>@drawable/ic_uncheck</item>
+        <item>@drawable/ic_uncheck</item>
+    </integer-array>
+
+    <integer-array name="default_nav_bar_item_checked_drawable_array">
+        <item>@drawable/ic_checked</item>
+        <item>@drawable/ic_checked</item>
+        <item>@drawable/ic_checked</item>
+        <item>@drawable/ic_checked</item>
+    </integer-array>
+
+    <color name="default_nav_bar_bg_color">#CC000000</color>
+    <color name="default_mask_color">#40000000</color>
+    <color name="white_status">#ffffff</color>
+    <dimen name="default_nav_bar_padding_top">10dp</dimen>
+    <dimen name="default_nav_bar_padding_bottom">10dp</dimen>
+
+    <style name="Default_NavigationBar_Style">
+        <item name="navItemNameSize">@dimen/default_nav_item_name_size</item>
+        <item name="navItemNameIconPadding">@dimen/default_nav_item_name_icon_padding</item>
+        <item name="navItemNameCheckedColor">@color/default_nav_item_checked_color</item>
+        <item name="navItemNameUncheckedColor">@color/default_nav_item_unchecked_color</item>
+        <item name="android:background">@color/default_nav_bar_bg_color</item>
+        <item name="android:paddingTop">@dimen/default_nav_bar_padding_top</item>
+        <item name="android:paddingBottom">@dimen/default_nav_bar_padding_bottom</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="navBarTopLineColor">@color/default_nav_bar_top_line_color</item>
+        <item name="navBarTopLineHeight">@dimen/default_nav_bar_top_line_height</item>
+        <item name="navBarItemNameArray">@array/default_nav_bar_item_name_array</item>
+    </style>
+
+    <declare-styleable name="StateBitmapImageButton">
+        <attr name="stateBitmapImageButtonStyle" format="reference" />
+        <attr name="maskColor" format="color|reference" />
+    </declare-styleable>
+
+    <style name="Default_BitmapImageButton_Style" parent="android:Widget.ImageButton">
+        <item name="maskColor">@color/default_mask_color</item>
+    </style>
+
+    <color name="status_color">#3CACFD</color>
+    <color name="blue_alpha_2">#94c4ff</color>
+
+    <!--加载中dialog-->
+    <style name="CustomLoadingDialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@drawable/shape_loading_wait_bg</item><!--背景-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <declare-styleable name="CallHeadViewGroup">
+        <attr name="m_durtion" format="integer|reference" />
+        <attr name="m_img_width" format="dimension|reference" />
+        <attr name="m_img_height" format="dimension|reference" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: "${getSamConfigFile('library_android_base_build.gradle')}"
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.sam.android.basecodex:SamBaseApp:latest.release'
+    api "io.reactivex.rxjava3:rxandroid:3.0.0"
+    api "io.reactivex.rxjava3:rxjava:3.0.7"
+}
+
+
+
+

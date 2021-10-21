@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sam="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        tools:ignore="MissingDefaultResource">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <com.sam.widget.selector_view.widget.SelectorLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            sam:svRadius="6dp">
+
+            <com.sam.widget.header_bar.LeftImgTitleBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/title_header_bg"
+                android:paddingStart="11dp"
+                android:paddingEnd="11dp"
+                sam:headerBottomLineHeight="0dp"
+                sam:leftImageSrc="@drawable/big_screen_setup_btn_return"
+                sam:titleText="配置网络"
+                sam:titleTextColour="#ff333333"
+                sam:titleTextSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="70dp"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/wired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_default_item_bg"
+                        android:padding="29dp"
+                        android:src="@drawable/big_screen_ic_wired_network" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="1 配置有线网络"
+                        android:textColor="@color/app_primary_bg"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="97dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/wireless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_default_item_bg"
+                        android:padding="29dp"
+                        android:src="@drawable/big_screen_ic_wireless_network" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="2 配置无线网络"
+                        android:textColor="@color/app_primary_bg"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.sam.widget.selector_view.widget.SelectorLinearLayout>
+    </LinearLayout>
+</layout>

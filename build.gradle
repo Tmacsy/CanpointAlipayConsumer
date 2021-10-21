@@ -1,0 +1,100 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.kotlin_version = "1.4.20"
+    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://47.111.232.85:8087/repository/canpoint-android-group/'
+        }
+        // 添加阿里云 maven 地址
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:${GRADLE_PLUGIN_VERSION}"
+        classpath "com.didi.virtualapk:gradle:${PLUGIN_FRAMEWORK_VERSION}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://47.111.232.85:8087/repository/canpoint-android-group/'
+        }
+        // 添加阿里云 maven 地址
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        jcenter()
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+//==================================================================
+//                         扩展
+//==================================================================
+def getSamConfigFile(pathInConfigDir) {
+    return searchFile('.sam/android/' + pathInConfigDir)
+}
+
+def searchFile(fileName) {
+    File rootDirFile = project.rootDir
+    for (int i = 0; i < 5; i++) {
+        if (rootDirFile == null) throw new GradleException("无法搜索到文件：${fileName}")
+        File commonBuildFile = new File(rootDirFile, fileName)
+        if (commonBuildFile.exists()) {
+            return commonBuildFile.getAbsolutePath()
+        } else {
+            rootDirFile = rootDirFile.getParentFile();
+        }
+    }
+    throw new GradleException("无法搜索到文件：${fileName}")
+}
+
+
+def getConfigValue(configName, defaultValue) {
+    return getPropertyValue("${project.rootDir}/gradle.properties", configName, defaultValue)
+}
+
+def setConfigValue(configName, configValue) {
+    setPropertyValue("${project.rootDir}/gradle.properties", configName, configValue)
+}
+
+def getPropertyValue(propertyFilePath, propertyName, defaultPropertyValue) {
+    def gradlePropertiesFile = file(propertyFilePath)
+    if (!gradlePropertiesFile.exists()) {
+        gradlePropertiesFile.createNewFile();
+    }
+    if (gradlePropertiesFile.canRead()) {
+        Properties gradleProperties = new Properties()
+        gradleProperties.load(new FileInputStream(gradlePropertiesFile))
+        def value = gradleProperties[propertyName]
+        if (value == null) return defaultPropertyValue
+        else return value
+    } else {
+        throw new GradleException("${gradlePropertiesFile.getAbsolutePath()}无法读取")
+    }
+}
+
+def setPropertyValue(propertyFilePath, propertyName, propertyValue) {
+    def gradlePropertiesFile = file(propertyFilePath)
+    if (!gradlePropertiesFile.exists()) {
+        gradlePropertiesFile.createNewFile();
+    }
+    if (gradlePropertiesFile.canRead()) {
+        Properties gradleProperties = new Properties()
+        gradleProperties.load(new FileInputStream(gradlePropertiesFile))
+        gradleProperties[propertyName] = propertyValue.toString()
+        gradleProperties.store(gradlePropertiesFile.newWriter(), null)
+    } else {
+        throw new GradleException("${gradlePropertiesFile.getAbsolutePath()}无法读取")
+    }
+}
