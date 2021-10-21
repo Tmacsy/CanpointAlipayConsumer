@@ -1,6 +1,7 @@
 package com.sam.canpoint.ecard.application
 
 import com.sam.app.SamApplication
+import com.sam.canpoint.ecard.api.IPayApi
 import com.sam.canpoint.ecard.utils.sp.CanPointSp
 import com.sam.http.ApiManager
 import com.sam.http.SamApiManager
@@ -30,12 +31,14 @@ class CanPointECardApplication : SamApplication() {
 
     override fun configApi(): ApiManager.ApiConfig {
         val config = ApiManager.ApiConfig(this)
-            .setEnableLog(true)
-            .setConnectTimeOutSeconds(5)
-            .setAuthorization(CanPointSp.authorization)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .setDefaultBaseUrl("http://tm.canpointlive.com:11101/")
+                .setEnableLog(true)
+                .setAuthorization(CanPointSp.authorization)
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .setDefaultBaseUrl(CanPointSp.serviceAddress)
         SamApiManager.init(config)
+        //单独的给支付接口设置五秒超时，产品定义的
+        SamApiManager.getInstance().setService(IPayApi::class.java, config.setConnectTimeOutSeconds(5)
+                .setReadTimeOutSeconds(5).setWriteTimeOutSeconds(5));
         return config
     }
 

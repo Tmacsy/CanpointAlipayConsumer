@@ -30,10 +30,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CanpointAlipayConsumer" >
+        android:theme="@style/Theme.CanpointAlipayConsumer">
 
 
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashStyle">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.init.InitDeviceActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.init.NetworkConfigurationActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

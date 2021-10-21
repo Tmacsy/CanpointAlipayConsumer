@@ -2,6 +2,7 @@ package com.tyx.base.mvvm
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,7 +11,7 @@ import androidx.lifecycle.Observer
 import com.sam.dialog.D.makeRotateLoadingDialog
 import com.sam.system.toast.T
 
-abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : AppCompatActivity() {
+abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : AppCompatActivity(), View.OnClickListener {
 
     protected lateinit var mBinding: V
     protected lateinit var mViewModel: M
@@ -67,5 +68,9 @@ abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : App
     override fun onDestroy() {
         super.onDestroy()
         if (this@BaseMVVMActivity::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+    }
+
+    override fun onClick(v: View?) {
+
     }
 }

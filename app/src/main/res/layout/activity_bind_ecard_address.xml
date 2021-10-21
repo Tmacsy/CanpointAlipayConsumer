@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.sam.canpoint.ecard.utils.sp.CanPointSp" />
+
+        <variable
+            name="vm"
+            type="com.sam.canpoint.ecard.ui.init.BindAddressViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingDefaultResource">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/big_screen_register_logo" />
+
+        <TextView
+            android:id="@+id/tv_school_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:text="@{CanPointSp.INSTANCE.schoolName}"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/school_code_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="77dp"
+                android:layout_marginTop="41dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消费机名称:"
+                    android:textColor="@color/text_333"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/et_device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/register_edit_bg"
+                    android:gravity="center_vertical"
+                    android:hint="@string/register_school_address"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:paddingStart="13dp"
+                    android:paddingEnd="13dp"
+                    android:singleLine="true"
+                    android:text="@={vm.deviceName}"
+                    android:textColor="@color/text_333"
+                    android:textColorHint="@color/text_ccc"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_store"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/ll_name"
+                android:layout_marginHorizontal="77dp"
+                android:layout_marginTop="27dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所"
+                    android:textColor="@color/text_333"
+                    android:textSize="20sp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/tv_head_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所属门店:"
+                    android:textColor="@color/text_333"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_build_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/register_edit_bg"
+                    android:gravity="center|start">
+
+                    <TextView
+                        android:id="@+id/tv_build_store"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/register_store_hint"
+                        android:paddingStart="13dp"
+                        android:paddingEnd="13dp"
+                        android:text="@{vm.storeName}"
+                        android:textColor="@color/text_333"
+                        android:textColorHint="@color/text_ccc"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="13dp"
+                        android:src="@drawable/big_screen_down" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="83dp"
+                android:layout_marginBottom="41dp">
+
+                <TextView
+                    android:id="@+id/tv_back"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/school_code_up"
+                    android:gravity="center"
+                    android:text="上一步"
+                    android:textColor="@color/text_up"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/tv_next"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="53dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/school_code_next"
+                    android:gravity="center"
+                    android:text="下一步"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
+
+

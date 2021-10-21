@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">CanpointAlipayConsumer</string>
+    <string name="app_name">消费机</string>
+    <string name="splash_text">欢迎使用\n武汉全品人脸消费机</string>
+    <string name="register_small_text">请您前往对面\n屏幕进行操作</string>
+    <string name="register_school_hint">请联系全品售后人员获取学校编码</string>
+    <string name="register_school_hint2">请联系全品售后人员获取服务器地址</string>
+    <string name="register_store_hint">请选择门店</string>
+    <string name="register_school_address">示例:XX食堂人脸消费机05</string>
+    <string name="register_syndata_warn">首次使用导入数据所需时间较长,请耐心等待</string>
+    <string name="setting_small_text">请在消费侧页面进行设置</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_failed">支付失败</string>
 </resources>

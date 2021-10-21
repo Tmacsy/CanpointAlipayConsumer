@@ -13,6 +13,12 @@ interface ICanPointConfig {
     @PreferenceSet(key = "authorization")
     fun setAuthorization(value: String)
 
+    @PreferenceGet(key = "service_addres", defaultValue = "https://tc.canpointlive.com/canpoint-eface")
+    fun getServiceAddress(): String
+
+    @PreferenceSet(key = "service_addres")
+    fun setServiceAddress(value: String)
+
     @PreferenceGet(key = "first_run")
     fun getAppRunCount(): Int
 
@@ -67,15 +73,21 @@ interface ICanPointConfig {
     @PreferenceSet(key = "max_offline_stop_num")
     fun setOfflineStopNum(value: Int)
 
-    @PreferenceGet(key = "set_password",defaultValue = "888888")
-    fun getPassword():String
+    @PreferenceGet(key = "set_password", defaultValue = "888888")
+    fun getPassword(): String
 
     @PreferenceSet(key = "set_password")
     fun setPassword(value: String)
 
     @PreferenceGet(key = "iot_status")
-    fun getIotStatus():Boolean
+    fun getIotStatus(): Boolean
 
     @PreferenceSet(key = "iot_status")
     fun setIotStatus(value: Boolean)
+
+    @PreferenceGet(key = "school_name")
+    fun getSchoolName(): String
+
+    @PreferenceGet(key = "school_name")
+    fun setSchoolName(value: String)
 }

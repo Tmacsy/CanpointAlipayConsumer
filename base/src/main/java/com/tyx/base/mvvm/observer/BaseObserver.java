@@ -1,4 +1,5 @@
 package com.tyx.base.mvvm.observer;
+
 import com.sam.system.log.L;
 import com.tyx.base.bean.BaseResponse;
 
@@ -31,6 +32,7 @@ public abstract class BaseObserver<D> implements Observer<BaseResponse<D>> {
     @Override
     public void onError(@NonNull Throwable e) {
         onFail(e);
+        onComplete();
     }
 
     @Override

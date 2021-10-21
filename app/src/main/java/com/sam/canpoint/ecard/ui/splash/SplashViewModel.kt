@@ -35,7 +35,6 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
     private var mHandler = Handler(Looper.getMainLooper())
 
     fun initSplash() {
-        Utils.resetFourRandomMinute()
         if (CanPointSp.appRunCount == 0) {
             //第一次运行
             startClass.value =

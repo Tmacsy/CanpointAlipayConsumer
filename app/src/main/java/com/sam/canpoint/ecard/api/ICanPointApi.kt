@@ -1,14 +1,12 @@
 package com.sam.canpoint.ecard.api
 
-import com.sam.canpoint.ecard.api.bean.AddDeviceBindResponse
-import com.sam.canpoint.ecard.api.bean.GetAccountInfoListResponse
-import com.sam.canpoint.ecard.api.bean.GetConsumeRuleResponse
-import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
+import com.sam.canpoint.ecard.api.bean.*
 import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.tyx.base.bean.BaseResponse
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -39,4 +37,17 @@ interface ICanPointApi {
      */
     @POST("api/consume/queryAliAccountInfo")
     fun getAccountInfoList(@Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int, @Query("schoolCode") schoolCode: String): Observable<BaseResponse<ArrayList<GetAccountInfoListResponse>>>
+
+
+    /**
+     * 根据学校编码拉取学校名称
+     */
+    @POST("api/consume/querySchool")
+    fun getSchoolNameBySchoolCode(@Query("schoolCode") schoolCode: String?): Observable<BaseResponse<GetSchoolNameBySchoolCodeResponse>>
+
+    /**
+     * 查询档口下拉列表
+     */
+    @GET("api/consume/selectStore")
+    fun getStoreBySchoolCode(@Query("schoolCode") schoolCode: String?): Observable<BaseResponse<ArrayList<GetStoreInfoResponse>>>
 }

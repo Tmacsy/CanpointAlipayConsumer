@@ -13,6 +13,10 @@ object CanPointSp {
             config.setAuthorization(value)
         }
 
+    var serviceAddress: String
+        get() = config.getServiceAddress()
+        set(value) = config.setServiceAddress(value)
+
     var appRunCount: Int
         get() = config.getAppRunCount()
         set(value) {
@@ -44,6 +48,12 @@ object CanPointSp {
         get() = config.getSchoolCode()
         set(value) {
             config.setSchoolCode(value)
+        }
+
+    var schoolName: String
+        get() = config.getSchoolName()
+        set(value) {
+            config.setSchoolName(value)
         }
 
     var maxSingleConsume: String
