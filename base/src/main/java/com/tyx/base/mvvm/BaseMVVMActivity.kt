@@ -10,8 +10,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.sam.dialog.D.makeRotateLoadingDialog
 import com.sam.system.toast.T
+import com.tyx.base.BaseNetWorkActivity
 
-abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : AppCompatActivity(), View.OnClickListener {
+abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : BaseNetWorkActivity(),
+    View.OnClickListener {
 
     protected lateinit var mBinding: V
     protected lateinit var mViewModel: M
@@ -23,9 +25,7 @@ abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : App
         mViewModel = getViewModel()
         mBinding.run {
             setLifecycleOwner(this@BaseMVVMActivity)
-            mViewModel?.let { vm ->
-                lifecycle.addObserver(vm)
-            }
+            lifecycle.addObserver(mViewModel)
         }
         observer()
         initView()
@@ -41,7 +41,7 @@ abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : App
     }
 
     private fun observer() {
-        mViewModel?.viewChange?.run {
+        mViewModel.viewChange.run {
             showToast.observe(this@BaseMVVMActivity, Observer {
                 T.normal(this@BaseMVVMActivity, it ?: "").show()
             })

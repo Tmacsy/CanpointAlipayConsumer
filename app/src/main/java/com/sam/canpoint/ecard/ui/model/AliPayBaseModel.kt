@@ -1,5 +1,6 @@
 package com.sam.canpoint.ecard.ui.model
 
+import android.text.TextUtils
 import com.alipay.iot.sdk.APIManager
 import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
 import com.sam.canpoint.ecard.api.request.ConsumptionLocalRecordsRequest
@@ -67,8 +68,8 @@ open class AliPayBaseModel : BaseModel() {
         }
         if (infoBean != null) {
             APIManager.getInstance().initialize(CanPointECardApplication.the(), infoBean.isvPid) {
-                CanPointSp.iotStatus = it && !APIManager.getInstance().deviceAPI.deviceId.isNullOrEmpty()
-                if (it) {
+                val value = it && !TextUtils.isEmpty(APIManager.getInstance().deviceAPI.deviceId)
+                if (value) {
                     L.d("IOT初始化成功...")
                 } else {
                     L.e("IOT初始化失败!")
@@ -76,7 +77,17 @@ open class AliPayBaseModel : BaseModel() {
                     CrashReport.postCatchedException(Throwable("iot初始化失败的异常,设备SN=" + DeviceUtils.getAndroidID()))
                 }
                 SamDBManager.getInstance().dao(MerchantInfoBean::class.java).addOrUpdate(infoBean)
+                CanPointSp.iotStatus = value
+                result.invoke(value)
             }
+        } else {
+            L.d("商户数据为空!")
+            CanPointSp.iotStatus = false
+            result.invoke(false)
         }
+    }
+
+    open fun releaseIOT() {
+        APIManager.getInstance().deinitialize()
     }
 }

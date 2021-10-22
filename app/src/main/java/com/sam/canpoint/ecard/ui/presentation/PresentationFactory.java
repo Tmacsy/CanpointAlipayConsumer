@@ -1,7 +1,6 @@
-package com.sam.canpoint.ecard.presentation;
+package com.sam.canpoint.ecard.ui.presentation;
 
 import android.app.Activity;
-import android.app.Presentation;
 import android.content.Context;
 import android.hardware.display.DisplayManager;
 import android.os.Build;

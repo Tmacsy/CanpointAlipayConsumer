@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Display;
 
 import com.sam.canpoint.ecard.R;
-import com.sam.canpoint.ecard.presentation.BasePresentation;
+import com.sam.canpoint.ecard.ui.presentation.BasePresentation;
 
 public class SplashPresentation extends BasePresentation {
 

@@ -1,4 +1,4 @@
-package com.sam.canpoint.ecard.presentation
+package com.sam.canpoint.ecard.ui.presentation
 
 import com.sam.canpoint.ecard.keyboard.KeyBoardEvent
 

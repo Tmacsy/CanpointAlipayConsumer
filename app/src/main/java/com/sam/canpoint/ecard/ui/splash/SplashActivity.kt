@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.sam.canpoint.ecard.R
 import com.sam.canpoint.ecard.databinding.ActivitySplashBinding
-import com.sam.canpoint.ecard.presentation.BasePresentation
-import com.sam.canpoint.ecard.presentation.PresentationFactory
+import com.sam.canpoint.ecard.ui.presentation.BasePresentation
+import com.sam.canpoint.ecard.ui.presentation.PresentationFactory
 import com.sam.canpoint.ecard.utils.Utils
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
