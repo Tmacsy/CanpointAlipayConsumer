@@ -15,19 +15,15 @@ import com.tyx.base.mvvm.ktx.applySchedulers
 import com.tyx.base.mvvm.observer.BaseObserver
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.collections.ArrayList
 import kotlin.math.ceil
 
-class SyncAccountThread(var isInitData: Boolean = false) : Thread() {
+class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thread() {
     private val mCurrentPage = AtomicInteger(1)
     private var callback: SyncAccountCallback? = null
-    private var newAccountInfoList = LinkedList<GetAccountInfoListResponse>()
+    private var waitSyncAccountList = LinkedList<GetAccountInfoListResponse>()
 
     @Volatile
     private var total = -1
-
-    @Volatile
-    private var isInitDate = isInitData
 
     override fun run() {
         super.run()
@@ -46,7 +42,6 @@ class SyncAccountThread(var isInitData: Boolean = false) : Thread() {
         callback = null
     }
 
-
     private fun syncAccount() {
         SamApiManager.getInstance().getService(ICanPointApi::class.java)
                 .getAccountInfoList(mCurrentPage.get(), 30, schoolCode)
@@ -62,6 +57,7 @@ class SyncAccountThread(var isInitData: Boolean = false) : Thread() {
                     }
 
                     override fun onFail(e: Throwable?) {
+                        callback?.error("${mCurrentPage}页请求出错,${e?.message ?: "未知!"}")
                         interrupt()
                     }
                 }))
@@ -70,52 +66,54 @@ class SyncAccountThread(var isInitData: Boolean = false) : Thread() {
     private fun initData(d: ArrayList<GetAccountInfoListResponse>?) {
         if (d.isNullOrEmpty() || total == 0) {
             L.d("当前${mCurrentPage.get()}页账户信息为空!")
+            callback?.error("当前${mCurrentPage.get()}页账户信息为空!")
             interrupt()
             return
         }
         L.d("获取第${mCurrentPage.get()}页账户信息成功")
         val incrementAndGet = mCurrentPage.incrementAndGet()
         L.d("接下来请求第:${incrementAndGet}页")
-        if (isInitDate) {
+        if (isInitData) {
+            //全量更新 成功一页更新保存一页
             for (response in d) {
                 SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java).addOrUpdate(response)
             }
+            if (mCurrentPage.get() > ceil(total / 30.0)) {
+                callback?.success(true)
+            }
         } else {
-            d.forEach {
+            //增量更新 先将当前页数据存储   如果当前页本地已保存则同步已保存的数据列表
+            waitSyncAccountList.addAll(d)
+            for (response in d) {
                 val exist = SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java)
-                        .isExist(WhereInfo.get().equal(ConsumptionLocalRecordsRequest._userCode, it.userCode))
+                        .isExist(WhereInfo.get().equal(ConsumptionLocalRecordsRequest._userCode, response.userCode))
                 if (exist) {
-                    for (rowsDataEntity in d) {
-                        SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java).addOrUpdate(rowsDataEntity)
-                    }
+                    syncData()
                     interrupt()
-                    return@forEach
+                    return
                 }
             }
-            newAccountInfoList.addAll(d)
             if (mCurrentPage.get() > ceil(total / 30.0)) {
-                L.e("开始存newAccountInfoList.size()=" + newAccountInfoList.size)
-                //存到临时表
-                for (rowsDataEntity in newAccountInfoList) {
-                    val accountTempInfo = GetAccountInfoListTempResponse(rowsDataEntity)
-                    SamDBManager.getInstance().dao(GetAccountInfoListTempResponse::class.java).addOrUpdate(accountTempInfo)
-                }
-                //全部存完了临时表后，再转存到本表
-                val newTempAccountInfoList = SamDBManager.getInstance().dao(GetAccountInfoListTempResponse::class.java).queryAll()
-                for (rowsDataEntity in newTempAccountInfoList) {
-                    val accountTempInfo = GetAccountInfoListResponse(rowsDataEntity);
-                    SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java).addOrUpdate(accountTempInfo)
-                }
-                L.e("结束存newAccountInfoList.size()=" + newAccountInfoList.size)
+                syncData()
             }
         }
     }
 
-    fun setSyncCallback(callback: SyncAccountCallback) {
+    private fun syncData() {
+        if (isInitData) return
+        for (rowsDataEntity in waitSyncAccountList) {
+            SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java).addOrUpdate(rowsDataEntity)
+        }
+        callback?.success(false)
+    }
+
+    fun setSyncCallback(callback: SyncAccountCallback?) {
         this.callback = callback
     }
 
     interface SyncAccountCallback {
         fun complete()
+        fun success(isAll: Boolean)
+        fun error(str: String)
     }
 }

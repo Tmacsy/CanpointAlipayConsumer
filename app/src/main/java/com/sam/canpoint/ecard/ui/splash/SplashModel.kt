@@ -17,9 +17,9 @@ import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class SplashModel : AliPayBaseModel() {
+open class SplashModel : AliPayBaseModel() {
 
-    fun getData(success: (SplashZipData?) -> Unit, error: (Throwable) -> Unit, complete: () -> Unit = {}, disposable: (Disposable?) -> Unit = {}) {
+    open fun getData(success: (SplashZipData?) -> Unit, error: (Throwable) -> Unit, complete: () -> Unit = {}, disposable: (Disposable?) -> Unit = {}) {
         Observable.zip(getConsumerRule(), addDeviceBind(), merchantInfo(), { getConsumeRuleResponses, addDeviceBindResponse, merchantInfoBean ->
             SplashZipData(getConsumeRuleResponses, addDeviceBindResponse, merchantInfoBean)
         })
@@ -52,6 +52,7 @@ class SplashModel : AliPayBaseModel() {
                         .compose(applySchedulers(object : BaseRxObserver<ArrayList<GetConsumeRuleResponse>>(this@SplashModel) {
                             override fun onSuccess(d: ArrayList<GetConsumeRuleResponse>?, message: String?) {
                                 observer.onNext(if (d.isNullOrEmpty()) ArrayList() else d)
+                                observer.onComplete()
                             }
 
                             override fun onFail(e: Throwable?) {
@@ -74,6 +75,7 @@ class SplashModel : AliPayBaseModel() {
                 }).compose(applySchedulers(object : BaseRxObserver<AddDeviceBindResponse>(this@SplashModel) {
                     override fun onSuccess(d: AddDeviceBindResponse?, message: String?) {
                         observer.onNext(d)
+                        observer.onComplete()
                     }
 
                     override fun onFail(e: Throwable?) {
@@ -85,13 +87,14 @@ class SplashModel : AliPayBaseModel() {
     }
 
     //支付宝初始化相关数据
-    private fun merchantInfo(): Observable<MerchantInfoBean> {
+    open fun merchantInfo(): Observable<MerchantInfoBean> {
         return object : Observable<MerchantInfoBean>() {
             override fun subscribeActual(observer: Observer<in MerchantInfoBean>) {
                 SamApiManager.getInstance().getService(ICanPointApi::class.java).merchantInfo()
                         .compose(applySchedulers(object : BaseRxObserver<MerchantInfoBean>(this@SplashModel) {
                             override fun onSuccess(d: MerchantInfoBean?, message: String?) {
                                 observer.onNext(d)
+                                observer.onComplete()
                             }
 
                             override fun onFail(e: Throwable?) {

@@ -16,6 +16,7 @@ import com.sam.canpoint.ecard.ui.home.HomeActivity
 import com.sam.canpoint.ecard.ui.init.InitDeviceActivity
 import com.sam.canpoint.ecard.ui.init.NetworkConfigurationActivity
 import com.sam.canpoint.ecard.ui.model.SyncAccountThread
+import com.sam.canpoint.ecard.ui.model.setCallback
 import com.sam.canpoint.ecard.utils.Utils
 import com.sam.canpoint.ecard.utils.sp.CanPointSp
 import com.sam.db.SamDBManager
@@ -33,6 +34,7 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
     private var zipDisposable: Disposable? = null
     private var merchantInfoBean: MerchantInfoBean? = null
     private var mHandler = Handler(Looper.getMainLooper())
+    private var thread: SyncAccountThread? = null
 
     fun initSplash() {
         if (CanPointSp.appRunCount == 0) {
@@ -57,12 +59,12 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
         }, error = {
             L.e("splash合并请求数据出错${it.message}")
             viewChange.showToast.value = "获取数据失败!"
-        }, disposable = {
-            zipDisposable = it
         }, complete = {
             L.d("splash合并请求结束!")
-            initIOT(merchantInfoBean)
+            model?.initIOT(merchantInfoBean)
             syncAccount()
+        }, disposable = {
+            zipDisposable = it
         })
     }
 
@@ -105,35 +107,12 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
         }
     }
 
-    private fun initIOT(data: MerchantInfoBean? = null) {
-        var infoBean = data
-        if (infoBean == null) {
-            val queryOne = SamDBManager.getInstance().dao(MerchantInfoBean::class.java).queryOne(WhereInfo.get())
-            if (queryOne != null) infoBean = queryOne
-        }
-        if (infoBean != null) {
-            APIManager.getInstance().initialize(CanPointECardApplication.the(), infoBean.isvPid) {
-                CanPointSp.iotStatus = it && !APIManager.getInstance().deviceAPI.deviceId.isNullOrEmpty()
-                if (it) {
-                    L.d("IOT初始化成功...")
-                } else {
-                    L.e("IOT初始化失败!")
-                    VoiceManager.get().voice("e9")
-                    CrashReport.postCatchedException(Throwable("iot初始化失败的异常,设备SN=" + DeviceUtils.getAndroidID()))
-                }
-                SamDBManager.getInstance().dao(MerchantInfoBean::class.java).addOrUpdate(infoBean)
-            }
-        }
-    }
-
     private fun syncAccount() {
-        val thread = SyncAccountThread(false)
-        thread.run {
-            setSyncCallback(object : SyncAccountThread.SyncAccountCallback {
-                override fun complete() {
-                    mHandler.post {
-                        startClass.value = HomeActivity::class.java
-                    }
+        thread = SyncAccountThread(false)
+        thread?.run {
+            setCallback(complete = {
+                mHandler.post {
+                    startClass.value = HomeActivity::class.java
                 }
             })
             start()
@@ -143,5 +122,7 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         zipDisposable?.dispose()
+        thread?.setSyncCallback(null)
+        thread = null
     }
 }

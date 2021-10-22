@@ -50,4 +50,10 @@ interface ICanPointApi {
      */
     @GET("api/consume/selectStore")
     fun getStoreBySchoolCode(@Query("schoolCode") schoolCode: String?): Observable<BaseResponse<ArrayList<GetStoreInfoResponse>>>
+
+    /**
+     * 获取学校消费规则
+     */
+    @GET("api/consume/initDevice")
+    fun initDevice(@Query("sn") sn: String?): Observable<BaseResponse<InitDeviceResponse>>
 }

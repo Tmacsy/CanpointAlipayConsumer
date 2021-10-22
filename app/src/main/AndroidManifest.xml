@@ -49,10 +49,30 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.init.InitDeviceActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.init.NetworkConfigurationActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.init.SyncDataActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".ui.init.BindAddressActivity"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".ui.init.SetSchoolCodeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.init.SyncDataFailedActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.init.SyncDataSucActivity"
+            android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

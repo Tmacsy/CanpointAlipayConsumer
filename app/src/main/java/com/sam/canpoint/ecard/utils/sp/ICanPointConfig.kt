@@ -90,4 +90,28 @@ interface ICanPointConfig {
 
     @PreferenceGet(key = "school_name")
     fun setSchoolName(value: String)
+
+    @PreferenceGet(key = "device_name", defaultValue = "食堂人脸消费机03号")
+    fun getDeviceName(): String
+
+    @PreferenceSet(key = "device_name")
+    fun setDeviceName(value: String)
+
+    @PreferenceGet(key = "pattern_type", defaultValue = "1")
+    fun getPatternType(): String
+
+    @PreferenceSet(key = "pattern_type")
+    fun setPatternType(value: String)
+
+    @PreferenceGet(key = "store")
+    fun getStore(): String
+
+    @PreferenceSet(key = "store")
+    fun setStore(value: String)
+
+    @PreferenceGet(key = "store_id")
+    fun getStoreId(): String
+
+    @PreferenceSet(key = "store_id")
+    fun setStoreId(value: String)
 }

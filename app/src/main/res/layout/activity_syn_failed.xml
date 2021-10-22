@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MissingDefaultResource">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/big_screen_register_logo"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/school_code_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="61dp"
+                android:drawableStart="@drawable/big_screen_register_ic_fail"
+                android:drawablePadding="13dp"
+                android:text="导入失败"
+                android:textColor="@color/text_failed"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="30dp"
+                android:text="网络错误"
+                android:textColor="@color/text_ccc"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="83dp"
+                android:layout_marginBottom="61dp">
+
+                <TextView
+                    android:id="@+id/tv_back"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/school_code_up"
+                    android:gravity="center"
+                    android:text="返回"
+                    android:textColor="@color/text_up"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/tv_reload"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="53dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/school_code_next"
+                    android:gravity="center"
+                    android:text="重新导入"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
+
+
