@@ -4,12 +4,13 @@ import android.content.ComponentName
 import android.content.Intent
 import com.sam.canpoint.ecard.R
 import com.sam.canpoint.ecard.databinding.ActivitySynFailedBinding
+import com.sam.canpoint.ecard.utils.Utils
 import com.sam.utils.device.DeviceUtils
 import com.tencent.bugly.crashreport.CrashReport
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class SyncDataFailedActivity : BaseMVVMActivity<ActivitySynFailedBinding, SyncDataFailedViewModel>() {
+class SyncDataFailedActivity : BaseRegisterActivity<ActivitySynFailedBinding, SyncDataFailedViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_syn_failed
 
     override fun getViewModel(): SyncDataFailedViewModel = createVM(SyncDataFailedViewModel::class.java)
@@ -21,7 +22,7 @@ class SyncDataFailedActivity : BaseMVVMActivity<ActivitySynFailedBinding, SyncDa
         val stringExtra = intent.getStringExtra("errorStr")
         isAuto = intent.getBooleanExtra("isAuto", isAuto)
         mBinding.tvError.text = stringExtra
-        CrashReport.postCatchedException(Throwable("注册中导入数据失败，isAutoInit=${isAuto},errorSting=${stringExtra},设备SN=${DeviceUtils.getAndroidID()}"))
+        Utils.postCatchException("注册中导入数据失败，isAutoInit=${isAuto},errorSting=${stringExtra},设备SN=${DeviceUtils.getAndroidID()}")
         mBinding.tvReload.setOnClickListener {
             SyncDataActivity.start(this, isAuto)
             finish()

@@ -17,7 +17,11 @@ abstract class BasePresentation : Presentation, IPresentation {
         show()
     }
 
-    override fun interceptKeyEvent(event: KeyBoardEvent?): Boolean {
+    override fun interceptKeyEvent(event: KeyBoardEvent): Boolean {
         return false
+    }
+
+    override fun showNetworkImg(text: String, value: Int) {
+
     }
 }

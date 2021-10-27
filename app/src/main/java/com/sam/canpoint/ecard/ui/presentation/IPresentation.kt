@@ -8,5 +8,7 @@ interface IPresentation {
 
     fun showPresentation()
 
-    fun interceptKeyEvent(event: KeyBoardEvent?): Boolean
+    fun interceptKeyEvent(event: KeyBoardEvent): Boolean
+
+    fun showNetworkImg(text: String, value: Int)
 }

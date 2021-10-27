@@ -4,21 +4,18 @@ import com.sam.canpoint.ecard.api.ICanPointApi
 import com.sam.canpoint.ecard.api.bean.GetAccountInfoListResponse
 import com.sam.canpoint.ecard.api.bean.GetAccountInfoListTempResponse
 import com.sam.canpoint.ecard.api.request.ConsumptionLocalRecordsRequest
-import com.sam.canpoint.ecard.utils.sp.CanPointSp.schoolCode
+import com.sam.canpoint.ecard.utils.CanPointSp.schoolCode
 import com.sam.db.SamDBManager
 import com.sam.db.info.WhereInfo
 import com.sam.http.SamApiManager
 import com.sam.system.log.L
-import com.tyx.base.bean.BaseResponse
-import com.tyx.base.mvvm.exception.RetryWithDelay
-import com.tyx.base.mvvm.ktx.applySchedulers
-import com.tyx.base.mvvm.observer.BaseObserver
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.ceil
 
 class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thread() {
     private val mCurrentPage = AtomicInteger(1)
+    private val retryCount = AtomicInteger(1)
     private var callback: SyncAccountCallback? = null
     private var waitSyncAccountList = LinkedList<GetAccountInfoListResponse>()
 
@@ -29,7 +26,7 @@ class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thr
         super.run()
         val clearTable = SamDBManager.getInstance().dao(GetAccountInfoListTempResponse::class.java).clearTable()
         L.d("已清除${clearTable}条临时表数据!")
-        while (!isInterrupted || (total != -1 && mCurrentPage.get() <= ceil(total / 30.0))) {
+        while (!isInterrupted && (total == -1 || mCurrentPage.get() <= ceil(total / 30.0))) {
             try {
                 syncAccount()
             } catch (e: InterruptedException) {
@@ -39,28 +36,23 @@ class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thr
         }
         L.d("同步账户信息线程结束!")
         callback?.complete()
-        callback = null
     }
 
     private fun syncAccount() {
-        SamApiManager.getInstance().getService(ICanPointApi::class.java)
-                .getAccountInfoList(mCurrentPage.get(), 30, schoolCode)
-                .retryWhen(RetryWithDelay(3, 1000))
-                .compose(applySchedulers(object : BaseObserver<ArrayList<GetAccountInfoListResponse>>() {
-                    override fun getAllData(data: BaseResponse<ArrayList<GetAccountInfoListResponse>>?) {
-                        total = data?.total ?: 0
-                        L.v("一共获取到${total}个账户信息")
-                    }
-
-                    override fun onSuccess(d: ArrayList<GetAccountInfoListResponse>?, message: String?) {
-                        initData(d)
-                    }
-
-                    override fun onFail(e: Throwable?) {
-                        callback?.error("${mCurrentPage}页请求出错,${e?.message ?: "未知!"}")
-                        interrupt()
-                    }
-                }))
+        val execute = SamApiManager.getInstance().getService(ICanPointApi::class.java).getAccountInfoList(mCurrentPage.get(), 30, schoolCode).execute()
+        if (execute.isSuccessful) {
+            val body = execute.body()
+            if (body != null && body.code == 200) {
+                retryCount.set(0)
+                total = body.total
+                L.v("一共获取到${total}个账户信息")
+                initData(body.rows)
+            } else {
+                retry()
+            }
+        } else {
+            retry()
+        }
     }
 
     private fun initData(d: ArrayList<GetAccountInfoListResponse>?) {
@@ -79,6 +71,7 @@ class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thr
                 SamDBManager.getInstance().dao(GetAccountInfoListResponse::class.java).addOrUpdate(response)
             }
             if (mCurrentPage.get() > ceil(total / 30.0)) {
+                L.d("获取数据成功结束!")
                 callback?.success(true)
             }
         } else {
@@ -96,6 +89,17 @@ class SyncAccountThread(@Volatile private var isInitData: Boolean = false) : Thr
             if (mCurrentPage.get() > ceil(total / 30.0)) {
                 syncData()
             }
+        }
+    }
+
+    private fun retry() {
+        val count = retryCount.get()
+        if (count > 3) {
+            callback?.error("获取第${count}页数据失败!")
+            interrupt()
+        } else {
+            retryCount.incrementAndGet()
+            syncAccount()
         }
     }
 

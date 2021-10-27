@@ -5,7 +5,7 @@ import com.sam.canpoint.ecard.api.bean.AddDeviceBindResponse
 import com.sam.canpoint.ecard.api.bean.GetStoreInfoResponse
 import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.sam.canpoint.ecard.utils.Utils
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.tyx.base.mvvm.BaseViewModel
 import com.tyx.base.mvvm.livedata.SingleLiveEvent
 

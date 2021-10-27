@@ -5,17 +5,18 @@ import com.alipay.iot.sdk.APIManager
 import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
 import com.sam.canpoint.ecard.api.request.ConsumptionLocalRecordsRequest
 import com.sam.canpoint.ecard.application.CanPointECardApplication
-import com.sam.canpoint.ecard.manager.VoiceManager
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.manager.IOTManager
+import com.sam.canpoint.ecard.utils.CanPointSp
+import com.sam.canpoint.ecard.utils.Utils
 import com.sam.db.SamDBManager
 import com.sam.db.info.WhereInfo
 import com.sam.system.log.L
 import com.sam.utils.device.DeviceUtils
-import com.tencent.bugly.crashreport.CrashReport
 import com.tyx.base.mvvm.model.BaseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.Exception
 
 open class AliPayBaseModel : BaseModel() {
 
@@ -55,39 +56,46 @@ open class AliPayBaseModel : BaseModel() {
                 .subscribe {
                     L.v("当前设备的累计未上报${it}条离线消费记录")
                     if (it > 0) {
-                        CrashReport.postCatchedException(Throwable("当前设备的累计未上报离线记录数量为${it},设备SN=${DeviceUtils.getAndroidID()}"))
+                        Utils.postCatchException("当前设备的累计未上报离线记录数量为${it},设备SN=${DeviceUtils.getAndroidID()}")
                     }
                 }
     }
 
     open fun initIOT(data: MerchantInfoBean? = null, result: (Boolean) -> Unit = {}) {
-        var infoBean = data
-        if (infoBean == null) {
-            val queryOne = SamDBManager.getInstance().dao(MerchantInfoBean::class.java).queryOne(WhereInfo.get())
-            if (queryOne != null) infoBean = queryOne
-        }
-        if (infoBean != null) {
-            APIManager.getInstance().initialize(CanPointECardApplication.the(), infoBean.isvPid) {
-                val value = it && !TextUtils.isEmpty(APIManager.getInstance().deviceAPI.deviceId)
-                if (value) {
-                    L.d("IOT初始化成功...")
-                } else {
-                    L.e("IOT初始化失败!")
-                    VoiceManager.get().voice("e9")
-                    CrashReport.postCatchedException(Throwable("iot初始化失败的异常,设备SN=" + DeviceUtils.getAndroidID()))
-                }
-                SamDBManager.getInstance().dao(MerchantInfoBean::class.java).addOrUpdate(infoBean)
-                CanPointSp.iotStatus = value
-                result.invoke(value)
+        try {
+            if (CanPointSp.iotStatus) {
+                result.invoke(true)
+                return
             }
-        } else {
-            L.d("商户数据为空!")
+            var infoBean = data
+            if (infoBean == null) {
+                val queryOne = SamDBManager.getInstance().dao(MerchantInfoBean::class.java).queryOne(WhereInfo.get())
+                if (queryOne != null) infoBean = queryOne
+            }
+            if (infoBean != null) {
+                APIManager.getInstance().deinitialize()
+                APIManager.getInstance().initialize(CanPointECardApplication.the(), infoBean.isvPid) {
+                    val value = it && !TextUtils.isEmpty(APIManager.getInstance().deviceAPI.deviceId)
+                    if (value) {
+                        L.d("IOT初始化成功...")
+                    } else {
+                        L.e("IOT初始化失败!")
+                        IOTManager.get().voice("e9")
+                        Utils.postCatchException("iot初始化失败的异常,设备SN=" + DeviceUtils.getAndroidID())
+                    }
+                    SamDBManager.getInstance().dao(MerchantInfoBean::class.java).addOrUpdate(infoBean)
+                    CanPointSp.iotStatus = value
+                    result.invoke(value)
+                }
+            } else {
+                L.d("商户数据为空!")
+                CanPointSp.iotStatus = false
+                result.invoke(false)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             CanPointSp.iotStatus = false
             result.invoke(false)
         }
-    }
-
-    open fun releaseIOT() {
-        APIManager.getInstance().deinitialize()
     }
 }

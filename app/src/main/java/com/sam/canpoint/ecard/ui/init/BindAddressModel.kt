@@ -5,10 +5,9 @@ import com.sam.canpoint.ecard.api.bean.AddDeviceBindResponse
 import com.sam.canpoint.ecard.api.bean.GetStoreInfoResponse
 import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.sam.canpoint.ecard.ui.model.AliPayBaseModel
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.sam.http.SamApiManager
 import com.tyx.base.mvvm.ktx.applySchedulers
-import com.tyx.base.mvvm.model.BaseModel
 import com.tyx.base.mvvm.observer.BaseRxObserver
 
 class BindAddressModel : AliPayBaseModel() {

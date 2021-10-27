@@ -7,7 +7,7 @@ import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
 import com.sam.canpoint.ecard.api.bean.SplashZipData
 import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.sam.canpoint.ecard.ui.model.AliPayBaseModel
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.sam.http.SamApiManager
 import com.sam.utils.device.DeviceUtils
 import com.tyx.base.mvvm.ktx.applySchedulers
@@ -57,6 +57,7 @@ open class SplashModel : AliPayBaseModel() {
 
                             override fun onFail(e: Throwable?) {
                                 observer.onError(e)
+                                observer.onComplete()
                             }
                         }))
             }
@@ -80,6 +81,7 @@ open class SplashModel : AliPayBaseModel() {
 
                     override fun onFail(e: Throwable?) {
                         observer.onError(e)
+                        observer.onComplete()
                     }
                 }))
             }
@@ -99,6 +101,7 @@ open class SplashModel : AliPayBaseModel() {
 
                             override fun onFail(e: Throwable?) {
                                 observer.onError(e)
+                                observer.onComplete()
                             }
                         }))
             }

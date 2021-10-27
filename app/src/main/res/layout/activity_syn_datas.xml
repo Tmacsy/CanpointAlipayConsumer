@@ -1,134 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rl_bg"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:ignore="MissingDefaultResource">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp" />
+    <data>
+
+    </data>
 
     <RelativeLayout
+        android:id="@+id/rl_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/iv_logo"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/school_code_bg"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingDefaultResource">
 
-        <TextView
-            android:id="@+id/t1"
+        <ImageView
+            android:id="@+id/iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:text="数据导入中"
-            android:textColor="@color/text_333"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/t2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
-            android:text="@string/register_syndata_warn"
-            android:textColor="#ff999999"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/t3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
-            android:drawableStart="@drawable/big_screen_register_ic_loading_completed"
-            android:drawablePadding="14dp"
-            android:text="学校数据"
-            android:textColor="@color/text_up"
-            android:textSize="15sp" />
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp" />
 
         <RelativeLayout
-            android:id="@+id/t4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:id="@+id/loading_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/big_screen_register_ic_loading" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/school_code_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/t1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_toEndOf="@id/loading_view"
-                android:text="人员数据"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:text="数据导入中"
+                android:textColor="@color/text_333"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/t2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/t1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:text="@string/register_syndata_warn"
+                android:textColor="#ff999999"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/t3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/t2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="26dp"
+                android:drawableStart="@drawable/big_screen_register_ic_loading_completed"
+                android:drawablePadding="14dp"
+                android:text="学校数据"
+                android:textColor="@color/text_up"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/t4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/t3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/loading_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/big_screen_register_ic_loading" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_toEndOf="@id/loading_view"
+                    android:text="人员数据"
+                    android:textColor="@color/text_ccc"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/t5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/t4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/big_screen_register_ic_loading"
+                android:drawablePadding="14dp"
+                android:text="消费数据"
                 android:textColor="@color/text_ccc"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/t6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/t5"
+                android:layout_alignStart="@id/t5"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/big_screen_register_ic_loading"
+                android:drawablePadding="14dp"
+                android:text="其它      "
+                android:textColor="@color/text_ccc"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_btn"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/t6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="111dp"
+                android:layout_marginBottom="17dp"
+                android:background="@drawable/school_code_next"
+                android:gravity="center"
+                android:text="返回"
+                android:textColor="@color/white"
+                android:textSize="21sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/t5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t4"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:drawableStart="@drawable/big_screen_register_ic_loading"
-            android:drawablePadding="14dp"
-            android:text="消费数据"
-            android:textColor="@color/text_ccc"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/t6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/t5"
-            android:layout_alignStart="@id/t5"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:drawableStart="@drawable/big_screen_register_ic_loading"
-            android:drawablePadding="14dp"
-            android:text="其它      "
-            android:textColor="@color/text_ccc"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv_btn"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_below="@id/t6"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="111dp"
-            android:layout_marginBottom="17dp"
-            android:background="@drawable/school_code_next"
-            android:gravity="center"
-            android:text="返回"
-            android:textColor="@color/white"
-            android:textSize="21sp"
-            android:visibility="gone" />
     </RelativeLayout>
-
-</RelativeLayout>
+</layout>
 
 
 

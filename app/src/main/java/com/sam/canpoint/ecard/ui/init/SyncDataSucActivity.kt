@@ -5,11 +5,11 @@ import com.sam.canpoint.ecard.R
 import com.sam.canpoint.ecard.databinding.ActivitySynDatasSucBinding
 import com.sam.canpoint.ecard.ui.home.HomeActivity
 import com.sam.canpoint.ecard.utils.Utils
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class SyncDataSucActivity : BaseMVVMActivity<ActivitySynDatasSucBinding, SyncDataSucViewModel>() {
+class SyncDataSucActivity : BaseRegisterActivity<ActivitySynDatasSucBinding, SyncDataSucViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_syn_datas_suc
 
     override fun getViewModel(): SyncDataSucViewModel = createVM(SyncDataSucViewModel::class.java)

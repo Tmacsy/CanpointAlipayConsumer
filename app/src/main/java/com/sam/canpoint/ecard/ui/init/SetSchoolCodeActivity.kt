@@ -8,7 +8,7 @@ import com.sam.canpoint.ecard.databinding.ActivitySetSchoolCodeBinding
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class SetSchoolCodeActivity : BaseMVVMActivity<ActivitySetSchoolCodeBinding, SetSchoolCodeViewModel>() {
+class SetSchoolCodeActivity : BaseRegisterActivity<ActivitySetSchoolCodeBinding, SetSchoolCodeViewModel>() {
     override fun getLayoutId(): Int {
         return R.layout.activity_set_school_code
     }

@@ -4,19 +4,14 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import com.alipay.iot.sdk.APIManager
 import com.sam.canpoint.ecard.api.bean.*
 import com.sam.canpoint.ecard.api.request.ConsumptionLocalRecordsRequest
-import com.sam.canpoint.ecard.application.CanPointECardApplication
-import com.sam.canpoint.ecard.manager.VoiceManager
 import com.sam.canpoint.ecard.ui.model.SyncAccountThread
 import com.sam.canpoint.ecard.ui.model.setCallback
 import com.sam.canpoint.ecard.utils.Utils
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.sam.db.SamDBManager
 import com.sam.system.log.L
-import com.sam.utils.device.DeviceUtils
-import com.tencent.bugly.crashreport.CrashReport
 import com.tyx.base.mvvm.BaseViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -85,7 +80,7 @@ class SyncDataViewModel : BaseViewModel<SyncDataModel>() {
             L.e("手动导入合并请求数据出错${it.message}")
             error.value = "获取数据失败!"
         }, complete = {
-
+            L.d("手动请求完毕")
         }, disposable = {
             syncDisposable = it
         })
@@ -132,7 +127,7 @@ class SyncDataViewModel : BaseViewModel<SyncDataModel>() {
 
     private fun initIOT(data: MerchantInfoBean?) {
         if (data != null) {
-            model?.initIOT(data,result = {
+            model?.initIOT(data, result = {
                 syncAccount()
             })
         }

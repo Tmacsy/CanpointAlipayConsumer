@@ -5,11 +5,12 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import com.sam.canpoint.ecard.R
 import com.sam.canpoint.ecard.databinding.ActivitySetSchoolCodeBinding
+import com.sam.canpoint.ecard.databinding.ActivitySynDatasBinding
 import com.sam.utils.app.ActivityUtils
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class SyncDataActivity : BaseMVVMActivity<ActivitySetSchoolCodeBinding, SyncDataViewModel>() {
+class SyncDataActivity : BaseRegisterActivity<ActivitySynDatasBinding, SyncDataViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_syn_datas
     override fun getViewModel(): SyncDataViewModel = createVM(SyncDataViewModel::class.java)
     private var isAuto: Boolean = false
@@ -41,6 +42,7 @@ class SyncDataActivity : BaseMVVMActivity<ActivitySetSchoolCodeBinding, SyncData
                     putExtra("isAuto", isAuto)
                     putExtra("errorStr", it)
                 })
+                finish()
             })
         }
     }

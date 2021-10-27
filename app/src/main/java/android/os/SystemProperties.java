@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sam.canpoint.ecard.utils;
+package android.os;
 
 import java.util.ArrayList;
 

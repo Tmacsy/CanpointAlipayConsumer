@@ -7,15 +7,15 @@ import com.sam.canpoint.ecard.R
 import com.sam.canpoint.ecard.api.bean.GetStoreInfoResponse
 import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.sam.canpoint.ecard.databinding.ActivityBindEcardAddressBinding
-import com.sam.canpoint.ecard.utils.SystemProperties
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import android.os.SystemProperties
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.sam.dialog.widget.ActionSheetDialog
 import com.sam.utils.device.DeviceUtils
 import com.sam.utils.network.NetworkUtils
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class BindAddressActivity : BaseMVVMActivity<ActivityBindEcardAddressBinding, BindAddressViewModel>() {
+class BindAddressActivity : BaseRegisterActivity<ActivityBindEcardAddressBinding, BindAddressViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_bind_ecard_address
     override fun getViewModel(): BindAddressViewModel = createVM(BindAddressViewModel::class.java)
     private val storeInfo = ArrayList<GetStoreInfoResponse>()
@@ -28,6 +28,7 @@ class BindAddressActivity : BaseMVVMActivity<ActivityBindEcardAddressBinding, Bi
         mBinding.vm = mViewModel
         mBinding.tvNext.setOnClickListener(this)
         mBinding.tvBack.setOnClickListener(this)
+        mBinding.llBuildStore.setOnClickListener(this)
         observer()
         mViewModel.getStoreInfo()
     }

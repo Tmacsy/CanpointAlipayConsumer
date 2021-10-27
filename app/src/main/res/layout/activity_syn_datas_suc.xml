@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.sam.canpoint.ecard.utils.sp.CanPointSp" />
+        <import type="com.sam.canpoint.ecard.utils.CanPointSp" />
     </data>
 
     <RelativeLayout

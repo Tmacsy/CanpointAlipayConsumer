@@ -6,7 +6,7 @@ import com.sam.canpoint.ecard.databinding.ActivityInitDeviceBinding
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
 
-class InitDeviceActivity : BaseMVVMActivity<ActivityInitDeviceBinding, InitDeviceViewModel>() {
+class InitDeviceActivity : BaseRegisterActivity<ActivityInitDeviceBinding, InitDeviceViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_init_device
 
     override fun getViewModel(): InitDeviceViewModel = createVM(InitDeviceViewModel::class.java)

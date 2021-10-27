@@ -16,7 +16,9 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${GRADLE_PLUGIN_VERSION}"
         classpath "com.didi.virtualapk:gradle:${PLUGIN_FRAMEWORK_VERSION}"
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
     }
 }
 

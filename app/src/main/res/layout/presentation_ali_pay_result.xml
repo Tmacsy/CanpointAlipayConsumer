@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/presentation_bg">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <ImageView
+            android:id="@+id/net_state_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/small_screen_wifi"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/top_line" />
+
+        <TextView
+            android:id="@+id/net_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="在线"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/net_state_iv"
+            app:layout_constraintLeft_toRightOf="@+id/net_state_iv"
+            app:layout_constraintTop_toTopOf="@+id/net_state_iv" />
+
+
+        <com.sam.widget.text_view.LedClockView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            android:text="13:32"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/net_state_iv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/net_state_iv"
+            app:timeFormat="HH:mm" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/top_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="net_state_iv,time_tv,net_state_tv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_white_round_8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_barrier"
+            app:svRadius="8dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/offline_status_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/offline_status_bg"
+                android:gravity="center_horizontal"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="设备处于脱机状态!"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/pay_result_iv"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="54dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/big_screen_home_ic_success" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pay_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:textColor="#FF333333"
+                android:textSize="27sp"
+                app:layout_constraintLeft_toLeftOf="@+id/pay_result_iv"
+                app:layout_constraintRight_toRightOf="@+id/pay_result_iv"
+                app:layout_constraintTop_toBottomOf="@+id/pay_result_iv"
+                tools:text="支付成功!" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pay_result_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="#999999"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/pay_result_iv"
+                app:layout_constraintRight_toRightOf="@+id/pay_result_iv"
+                app:layout_constraintTop_toBottomOf="@+id/pay_status_tv"
+                tools:text="余额不足"
+                tools:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="52dp"
+                android:layout_marginBottom="6dp"
+                android:text="￥"
+                android:textColor="#333333"
+                android:textSize="48sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pay_price_tv"
+                app:layout_constraintLeft_toLeftOf="@+id/pay_result_iv"
+                app:layout_constraintRight_toLeftOf="@+id/pay_price_tv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pay_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="12dp"
+                android:textColor="#333333"
+                android:textSize="77sp"
+                app:layout_constraintLeft_toRightOf="@+id/tv1"
+                app:layout_constraintRight_toRightOf="@+id/pay_result_iv"
+                app:layout_constraintTop_toBottomOf="@+id/pay_status_tv"
+                tools:text="29.55" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:text="付款账号"
+                android:textColor="#999999"
+                android:textSize="19sp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/account_tv"
+                app:layout_constraintTop_toBottomOf="@+id/pay_price_tv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/account_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:textColor="#999999"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv3"
+                app:layout_constraintLeft_toRightOf="@+id/tv3"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv3"
+                tools:text="王登基" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="交易时间"
+                android:textColor="#999999"
+                android:textSize="19sp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="@id/tv3"
+                app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pay_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#999999"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv4"
+                app:layout_constraintLeft_toLeftOf="@+id/account_tv"
+                app:layout_constraintTop_toTopOf="@+id/tv4"
+                tools:text="07-45 10.26" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/pay_success_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tv1,pay_price_tv,tv3,tv4,account_tv,pay_time_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

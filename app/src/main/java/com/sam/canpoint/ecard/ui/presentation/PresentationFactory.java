@@ -7,6 +7,9 @@ import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.sam.canpoint.ecard.ui.home.InputAmountPresentation;
+import com.sam.canpoint.ecard.ui.home.InputPassWordPresentation;
+import com.sam.canpoint.ecard.ui.init.RegisterPresentation;
 import com.sam.canpoint.ecard.ui.splash.SplashPresentation;
 
 import java.util.Objects;
@@ -49,18 +52,18 @@ public class PresentationFactory implements IPresentationFactory {
             case SPLASH:
                 presentation = new SplashPresentation(activity, displays[1]);
                 break;
-//            case REGISTER:
-//                presentation = new RegisterPresentation(activity, displays[1]);
-//                break;
-//            case INPUT_AMOUNT:
-//                presentation = new InputAmountPresentation(activity, displays[1]);
-//                break;
+            case REGISTER:
+                presentation = new RegisterPresentation(activity, displays[1]);
+                break;
+            case INPUT_AMOUNT:
+                presentation = new InputAmountPresentation(activity, displays[1]);
+                break;
 //            case ALI_PAY_RESULT:
 //                presentation = new AliPayResultPresentation(activity, displays[1]);
 //                break;
-//            case INPUT_PASS_WORD:
-//                presentation = new InputPassWordPresentation(activity, displays[1]);
-//                break;
+            case INPUT_PASS_WORD:
+                presentation = new InputPassWordPresentation(activity, displays[1]);
+                break;
 //            case SETTING:
 //                presentation = new AppSettingPresentation(activity, displays[1]);
 //                break;
@@ -106,11 +109,9 @@ public class PresentationFactory implements IPresentationFactory {
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
-        if (presentation != null) {
-            presentation.setOwnerActivity(activity);
-            Objects.requireNonNull(presentation.getWindow()).setType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-            presentation.show();
-        }
+        presentation.setOwnerActivity(activity);
+        Objects.requireNonNull(presentation.getWindow()).setType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        presentation.show();
         return presentation;
     }
 }

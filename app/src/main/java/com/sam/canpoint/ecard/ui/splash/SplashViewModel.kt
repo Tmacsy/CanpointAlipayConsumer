@@ -3,28 +3,24 @@ package com.sam.canpoint.ecard.ui.splash
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import com.alipay.iot.sdk.APIManager
 import com.sam.canpoint.ecard.api.bean.AddDeviceBindResponse
 import com.sam.canpoint.ecard.api.bean.GetConsumeRuleResponse
 import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
 import com.sam.canpoint.ecard.api.bean.SplashZipData
-import com.sam.canpoint.ecard.application.CanPointECardApplication
-import com.sam.canpoint.ecard.manager.VoiceManager
+import com.sam.canpoint.ecard.manager.IOTManager
 import com.sam.canpoint.ecard.ui.home.HomeActivity
 import com.sam.canpoint.ecard.ui.init.InitDeviceActivity
 import com.sam.canpoint.ecard.ui.init.NetworkConfigurationActivity
 import com.sam.canpoint.ecard.ui.model.SyncAccountThread
 import com.sam.canpoint.ecard.ui.model.setCallback
 import com.sam.canpoint.ecard.utils.Utils
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
 import com.sam.db.SamDBManager
-import com.sam.db.info.WhereInfo
 import com.sam.system.log.L
-import com.sam.utils.device.DeviceUtils
 import com.sam.utils.network.NetworkUtils
-import com.tencent.bugly.crashreport.CrashReport
 import com.tyx.base.mvvm.BaseViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -37,6 +33,7 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
     private var thread: SyncAccountThread? = null
 
     fun initSplash() {
+        CanPointSp.iotStatus = false //重置IOT状态
         if (CanPointSp.appRunCount == 0) {
             //第一次运行
             startClass.value =
@@ -47,7 +44,7 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
                 model?.reportOfflineRecords()
                 getData()
             } else {
-                VoiceManager.get().voice("e15")
+                IOTManager.get().voice("e15")
                 startClass.value = HomeActivity::class.java
             }
         }
@@ -57,7 +54,7 @@ class SplashViewModel : BaseViewModel<SplashModel>() {
         model?.getData(success = {
             initData(it)
         }, error = {
-            L.e("splash合并请求数据出错${it.message}")
+            L.e("splash合并请求数据出错${Log.getStackTraceString(it)}")
             viewChange.showToast.value = "获取数据失败!"
         }, complete = {
             L.d("splash合并请求结束!")

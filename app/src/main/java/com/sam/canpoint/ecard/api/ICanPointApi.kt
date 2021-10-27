@@ -5,10 +5,7 @@ import com.sam.canpoint.ecard.api.request.AddDeviceBindRequest
 import com.tyx.base.bean.BaseResponse
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ICanPointApi {
 
@@ -36,7 +33,7 @@ interface ICanPointApi {
      * @param schoolCode 学校编码
      */
     @POST("api/consume/queryAliAccountInfo")
-    fun getAccountInfoList(@Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int, @Query("schoolCode") schoolCode: String): Observable<BaseResponse<ArrayList<GetAccountInfoListResponse>>>
+    fun getAccountInfoList(@Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int, @Query("schoolCode") schoolCode: String): Call<AccountInfoBean>
 
 
     /**
@@ -56,4 +53,10 @@ interface ICanPointApi {
      */
     @GET("api/consume/initDevice")
     fun initDevice(@Query("sn") sn: String?): Observable<BaseResponse<InitDeviceResponse>>
+
+    /**
+     * 验证密码
+     */
+    @POST("api/consume/verifyPassword")
+    fun verifyPassword(@QueryMap map: Map<String, String>): Observable<BaseResponse<String>>
 }

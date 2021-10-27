@@ -2,6 +2,7 @@ package com.tyx.base.mvvm
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,7 @@ import com.sam.system.toast.T
 import com.tyx.base.BaseNetWorkActivity
 
 abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : BaseNetWorkActivity(),
-    View.OnClickListener {
+        View.OnClickListener {
 
     protected lateinit var mBinding: V
     protected lateinit var mViewModel: M
@@ -43,7 +44,7 @@ abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : Bas
     private fun observer() {
         mViewModel.viewChange.run {
             showToast.observe(this@BaseMVVMActivity, Observer {
-                T.normal(this@BaseMVVMActivity, it ?: "").show()
+                T.error(this@BaseMVVMActivity, if (TextUtils.isEmpty(it)) "操作失败!" else it ?: "操作失败!").show()
             })
             showLoadingDialog.observe(this@BaseMVVMActivity, Observer {
                 showDialog()

@@ -22,7 +22,6 @@ public abstract class BaseObserver<D> implements Observer<BaseResponse<D>> {
             if (!disposable.isDisposed()) {
                 getAllData(dBaseResponse);
                 onSuccess(dBaseResponse.getData(), dBaseResponse.getMessage());
-                onComplete();
             } else {
                 L.d("当前网络请求已取消!");
             }

@@ -1,8 +1,10 @@
 package com.sam.canpoint.ecard.ui.init
 
 import android.app.Activity
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
+import com.sam.system.log.L
 import com.tyx.base.mvvm.BaseViewModel
 import com.tyx.base.mvvm.livedata.SingleLiveEvent
 
@@ -26,9 +28,13 @@ class SetSchoolCodeViewModel : BaseViewModel<SetSchoolCodeModel>() {
         }
         viewChange.showLoadingDialog.call()
         model?.getSchoolName(address, schoolCode, success = {
-            CanPointSp.schoolCode = schoolCode
-            CanPointSp.schoolName = if (it.isNullOrEmpty()) "" else it
-            startClass.value = BindAddressActivity::class.java
+            if (it != null && !TextUtils.isEmpty(it.name)) {
+                CanPointSp.schoolCode = schoolCode
+                CanPointSp.schoolName = it.name
+                startClass.value = BindAddressActivity::class.java
+            } else {
+                viewChange.showToast.value = "学校编码错误!"
+            }
         }, error = {
             viewChange.showToast.value = it?.message
         }, complete = {

@@ -2,7 +2,8 @@ package com.sam.canpoint.ecard.application
 
 import com.sam.app.SamApplication
 import com.sam.canpoint.ecard.api.IPayApi
-import com.sam.canpoint.ecard.utils.sp.CanPointSp
+import com.sam.canpoint.ecard.utils.CanPointSp
+import com.sam.db.DBConfig
 import com.sam.http.ApiManager
 import com.sam.http.SamApiManager
 import com.sam.system.crash.sam.SamCrashHandler
@@ -16,13 +17,13 @@ class CanPointECardApplication : SamApplication() {
         super.onCreate()
         sInstance = this
         if (ProcessUtils.isMainProcess()) {
-            startBugLy()
+//            startBugLy()
         }
     }
 
     private fun startBugLy() {
         val userStrategy = CrashReport.UserStrategy(this)
-        CrashReport.initCrashReport(this, "", true, userStrategy)
+        CrashReport.initCrashReport(this, "013c55c613", true, userStrategy)
     }
 
     override fun configCrashHandler(): SamCrashHandler.CrashConfig? {
@@ -38,8 +39,12 @@ class CanPointECardApplication : SamApplication() {
         SamApiManager.init(config)
         //单独的给支付接口设置五秒超时，产品定义的
         SamApiManager.getInstance().setService(IPayApi::class.java, config.setConnectTimeOutSeconds(5)
-                .setReadTimeOutSeconds(5).setWriteTimeOutSeconds(5));
+                .setReadTimeOutSeconds(5).setWriteTimeOutSeconds(5))
         return config
+    }
+
+    override fun configDB(): DBConfig {
+        return super.configDB()
     }
 
     override fun provideDesignHeightInDb(): Int = 682

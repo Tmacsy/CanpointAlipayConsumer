@@ -2,7 +2,7 @@ package com.tyx.base.bean;
 
 public class BaseResponse<T> {
     private int code;
-    private String message;
+    private String msg;
     private T data;
     private int total;
 
@@ -15,11 +15,11 @@ public class BaseResponse<T> {
     }
 
     public String getMessage() {
-        return message;
+        return msg;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.msg = message;
     }
 
     public T getData() {

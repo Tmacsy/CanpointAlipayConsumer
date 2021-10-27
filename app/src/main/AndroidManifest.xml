@@ -32,12 +32,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CanpointAlipayConsumer">
 
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/SplashStyle">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="canpoint.alipay.iot.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -58,11 +60,10 @@
             android:name=".ui.init.SyncDataActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".ui.init.BindAddressActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".ui.init.SetSchoolCodeActivity"
             android:screenOrientation="landscape" />
@@ -72,6 +73,7 @@
         <activity
             android:name=".ui.init.SyncDataSucActivity"
             android:screenOrientation="landscape" />
+
 
     </application>
 
