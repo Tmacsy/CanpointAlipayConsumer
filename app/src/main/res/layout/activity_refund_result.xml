@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.sam.canpoint.ecard.ui.refund.RefundViewModel" />
+
+        <variable
+            name="click"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1677FF">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="60dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/big_screen_register_logo"
+            app:layout_constraintBottom_toBottomOf="@+id/top_line"
+            app:layout_constraintLeft_toLeftOf="@id/left_line" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            netWorkState="@{vm.netWorkState}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/top_line"
+            app:layout_constraintRight_toLeftOf="@+id/time_tv"
+            tools:src="@drawable/big_screen_home_ic_wifi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.currentDataTime}"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/top_line"
+            app:layout_constraintRight_toRightOf="@id/right_line"
+            tools:text="12:20" />
+
+        <!--退款成功-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/refund_success_cl"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/shape_white_round_12"
+            android:visibility="@{vm.refundResult.refundResultCode==200?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/left_line"
+            app:layout_constraintRight_toRightOf="@id/right_line"
+            app:layout_constraintTop_toTopOf="@id/top_line">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/success_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/big_screen_home_ic_success"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/refund_result_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="退款成功"
+                android:textColor="@{vm.refundResult.refundResultCode==200?@color/text_success:@color/text_333}"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@+id/success_iv"
+                app:layout_constraintRight_toRightOf="@+id/success_iv"
+                app:layout_constraintTop_toBottomOf="@+id/success_iv"
+                tools:textColor="@color/text_success" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="￥"
+                android:textColor="#2A2A2A"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="@+id/arriveAmount_tv"
+                app:layout_constraintLeft_toLeftOf="@+id/success_iv"
+                app:layout_constraintRight_toLeftOf="@+id/arriveAmount_tv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/arriveAmount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.refundResult.refundPrice.toString()}"
+                android:textColor="#2A2A2A"
+                android:textSize="60sp"
+                app:layout_constraintLeft_toRightOf="@+id/tv1"
+                app:layout_constraintRight_toRightOf="@+id/success_iv"
+                app:layout_constraintTop_toBottomOf="@+id/refund_result_tv"
+                tools:text="14.50" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="3dp"
+                android:text="退款账号"
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/arriveAmount_tv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/account_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="120dp"
+                android:text='@{vm.refundResult.refundName}'
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv2"
+                tools:text="王飞鸿" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="交易时间"
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@id/tv2"
+                app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/consumeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{vm.refundResult.createTime}'
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="@id/account_tv"
+                app:layout_constraintTop_toTopOf="@+id/tv3"
+                tools:text="07-14   12:20" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="订单号"
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@id/tv3"
+                app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/orderNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{vm.refundResult.orderId}'
+                android:textColor="#FF999999"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="@id/consumeTime"
+                app:layout_constraintTop_toTopOf="@+id/tv4"
+                tools:text="202107141220430559408025" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/back_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:onClick="@{click::onClick}"
+                android:text="@{vm.countDownTime}"
+                android:textColor="#999999"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="返回 3S" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--退款失败-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/refund_error_cl"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/shape_white_round_12"
+            android:visibility="@{vm.refundResult.refundResultCode==200?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/left_line"
+            app:layout_constraintRight_toRightOf="@id/right_line"
+            app:layout_constraintTop_toTopOf="@id/top_line"
+            tools:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/error_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:src="@drawable/big_screen_home_ic_fail"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="退款失败"
+                android:textColor="#333333"
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="@+id/error_iv"
+                app:layout_constraintRight_toRightOf="@+id/error_iv"
+                app:layout_constraintTop_toBottomOf="@+id/error_iv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@{vm.refundResult.refundResultStr}"
+                android:textColor="#999999"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/error_iv"
+                app:layout_constraintRight_toRightOf="@id/error_iv"
+                app:layout_constraintTop_toBottomOf="@+id/tv5"
+                tools:text="余额不足" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="42dp"
+                android:text="请联系商家重新发起退款"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/error_iv"
+                app:layout_constraintRight_toRightOf="@id/error_iv" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/back_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:onClick="@{click::onClick}"
+                android:text="@{vm.countDownTime}"
+                android:textColor="#999999"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="返回 3S" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--加载loading页-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading_cons_lt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/shape_white_round_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/left_line"
+            app:layout_constraintRight_toRightOf="@id/right_line"
+            app:layout_constraintTop_toTopOf="@id/top_line"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/loading_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_loading"
+                app:layout_constraintBottom_toTopOf="@+id/loading_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/loading_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="正在退款中..."
+                android:textColor="@color/text_up"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/loading_iv"
+                app:layout_constraintRight_toRightOf="@id/loading_iv"
+                app:layout_constraintTop_toBottomOf="@id/loading_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

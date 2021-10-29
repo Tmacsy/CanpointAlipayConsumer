@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppSettingsItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="siv_titleTextColor">#333333</item>
+        <item name="siv_titleTextSize">18sp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="tsiv_contentTextPaddingRight">0dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="tsiv_contentTextRightDrawable">@drawable/big_screen_setup_btn_nextstep</item>
+        <item name="tsiv_contentTextColor">#333333</item>
+        <item name="tsiv_contentTextSize">18sp</item>
+        <item name="tsiv_contentTextGravity">right</item>
+        <item name="tsiv_contentEditable">false</item>
+        <item name="siv_showBottomLine">false</item>
+        <item name="siv_showTopLine">false</item>
+    </style>
+
+    <style name="DeviceInfoItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="siv_titleTextColor">#333333</item>
+        <item name="siv_titleTextSize">18sp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="tsiv_contentTextPaddingRight">0dp</item>
+        <item name="bsiv_rightButtonMarginLeft">8dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="bsiv_rightButtonTextColor">@color/white</item>
+        <item name="bsiv_rightButtonTextSize">18sp</item>
+        <item name="bsiv_rightButtonPaddingBottom">3dp</item>
+        <item name="bsiv_rightButtonPaddingTop">1dp</item>
+        <item name="bsiv_rightButtonBackground">@drawable/device_name_modify_bg</item>
+        <item name="tsiv_contentTextColor">#333333</item>
+        <item name="tsiv_contentTextSize">18sp</item>
+        <item name="tsiv_contentTextGravity">right</item>
+        <item name="tsiv_contentEditable">false</item>
+        <item name="siv_showBottomLine">false</item>
+        <item name="siv_showTopLine">false</item>
+    </style>
+
+    <declare-styleable name="DetectAreaMaskView">
+        <attr name="maskStartColor" format="color|reference" />
+        <attr name="maskEndColor" format="color|reference" />
+        <attr name="maskBorderHeight" format="dimension|reference" />
+        <attr name="isOpenAnimation" format="boolean" />
+        <attr name="markAnimationDuration" format="dimension|reference" />
+    </declare-styleable>
+</resources>

@@ -10,10 +10,10 @@ import com.sam.http.SamApiManager
 import com.tyx.base.mvvm.ktx.applySchedulers
 import com.tyx.base.mvvm.observer.BaseRxObserver
 
-class BindAddressModel : AliPayBaseModel() {
+open class BindAddressModel : AliPayBaseModel() {
 
 
-    fun getStore(success: (ArrayList<GetStoreInfoResponse>?) -> Unit, error: (Throwable?) -> Unit) {
+    open fun getStore(success: (ArrayList<GetStoreInfoResponse>?) -> Unit, error: (Throwable?) -> Unit) {
         SamApiManager.getInstance().getService(ICanPointApi::class.java).getStoreBySchoolCode(CanPointSp.schoolCode)
                 .compose(applySchedulers(object : BaseRxObserver<ArrayList<GetStoreInfoResponse>>(this) {
                     override fun onSuccess(d: ArrayList<GetStoreInfoResponse>?, message: String?) {

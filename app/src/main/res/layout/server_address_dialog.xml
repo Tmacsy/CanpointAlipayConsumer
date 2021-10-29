@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sam.widget.selector_view.widget.SelectorLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sam="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:minWidth="408dp"
+    android:orientation="vertical"
+    sam:svRadius="12dp"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="21dp"
+        android:text="请输入服务器地址"
+        android:textColor="@color/text_333"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_server_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="22dp"
+        android:background="@drawable/selector_edittext_bg"
+        android:maxLines="1"
+        android:minHeight="34dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/text_333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="11dp"
+        android:text="*请谨慎操作，更换服务器地址可导致设备无法连接服务器"
+        android:textColor="#FA7344"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <com.sam.widget.selector_view.widget.SelectorButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="取消"
+            android:textColor="#999999"
+            android:textSize="18sp"
+            sam:svBorderWidth="1dp"
+            sam:svStateDefaultBackground="@color/white"
+            sam:svStatePressedBackground="#f2f2f2" />
+
+        <com.sam.widget.selector_view.widget.SelectorButton
+            android:id="@+id/btn_sure"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="确认"
+            android:textColor="@color/app_primary_bg"
+            android:textSize="18sp"
+            sam:svBorderWidth="1dp"
+            sam:svStateDefaultBackground="@color/white"
+            sam:svStatePressedBackground="#f2f2f2" />
+
+    </LinearLayout>
+
+</com.sam.widget.selector_view.widget.SelectorLinearLayout>

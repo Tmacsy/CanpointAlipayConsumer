@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_rl"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="13dp"
+    android:layout_marginEnd="24dp"
+    android:background="@drawable/shape_function_item_unselect_bg"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="27dp"
+        android:background="@drawable/shape_number_unselect_bg"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_toEndOf="@id/tv_number"
+        android:text="快速退款"
+        android:textColor="@color/text_333"
+        android:textSize="24sp" />
+
+</RelativeLayout>

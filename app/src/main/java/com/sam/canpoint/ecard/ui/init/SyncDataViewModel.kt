@@ -58,7 +58,7 @@ class SyncDataViewModel : BaseViewModel<SyncDataModel>() {
         with(CanPointSp) {
             schoolCode = consumerMachine.schoolCode
             schoolName = initDeviceResponse.schoolName
-            deviName = consumerMachine.deviceName
+            devicesName = consumerMachine.deviceName
             patternType = FREE_MODE
             store = consumerMachine.storeName
             storeId = consumerMachine.storeId

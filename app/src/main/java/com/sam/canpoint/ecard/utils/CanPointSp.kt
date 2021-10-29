@@ -13,6 +13,9 @@ object CanPointSp {
     const val OFFLINE_MODE = "0" //脱机消费（("0":脱机,"1":联机)）
     const val ONLINE_MODE = "1" //联机消费（("0":脱机,"1":联机)）
     const val OFFLINE = "offline" //offline（离线消费）
+    const val SUBSIDY = "EFACE_ALIPAY_FACE_BALANCE" // 支付宝当面付之刷脸支付（扣除余额）
+    const val WITHHOLD = "EFACE_ALIPAY_FACE" //支付宝当面付之刷脸支付（扣支付宝）
+    const val REFUND = "REFUND" //退款
 
 
     private var config = SamSpManager.getInstance().preference()
@@ -73,7 +76,7 @@ object CanPointSp {
         get() = config.getBoolean("iot_status")
         set(value) = config.setBoolean("iot_status", value)
 
-    var deviName: String
+    var devicesName: String
         get() = config.getString("device_name", "食堂人脸消费机03号")
         set(value) = config.setString("device_name", value)
 
@@ -92,4 +95,8 @@ object CanPointSp {
     var debtCount: Int
         get() = config.getInt("debt_count", 1)
         set(value) = config.setInt("debt_count", value)
+
+    var quotaMoney: String
+        get() = config.getString("keyboard_amonut", "")
+        set(value) = config.setString("keyboard_amonut", value)
 }

@@ -4,17 +4,28 @@ import android.text.TextUtils
 import com.alibaba.fastjson.JSONObject
 import com.alipay.zoloz.smile2pay.ZolozConfig
 import com.sam.canpoint.ecard.api.ICanPointApi
+import com.sam.canpoint.ecard.api.bean.LocalRecordBean
 import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
+import com.sam.canpoint.ecard.api.bean.OrderDetailResponse
+import com.sam.canpoint.ecard.api.bean.StatisticsByDayResponse
+import com.sam.canpoint.ecard.api.request.ConsumptionLocalRecordsRequest
 import com.sam.canpoint.ecard.ui.model.AliPayBaseModel
 import com.sam.canpoint.ecard.utils.CanPointSp
+import com.sam.canpoint.ecard.utils.forMatTime
 import com.sam.db.SamDBManager
 import com.sam.db.info.WhereInfo
 import com.sam.http.SamApiManager
 import com.tyx.base.mvvm.exception.ExceptionHandle
 import com.tyx.base.mvvm.ktx.applySchedulers
 import com.tyx.base.mvvm.observer.BaseRxObserver
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class HomeModel : AliPayBaseModel() {
+
+    private var mSearchHistoryDisposable: Disposable? = null
 
     fun merchantInfo(isNet: Boolean = true, success: (MerchantInfoBean) -> Unit, error: (Throwable?) -> Unit) {
         if (isNet) {
@@ -90,7 +101,7 @@ class HomeModel : AliPayBaseModel() {
             }
 
             override fun onFail(e: Throwable?) {
-                if (!TextUtils.isEmpty(map["password"]) && map["password"].equals(CanPointSp.password)){
+                if (!TextUtils.isEmpty(map["password"]) && map["password"].equals(CanPointSp.password)) {
                     success.invoke("success")
                 } else {
                     error.invoke(e)
@@ -102,5 +113,111 @@ class HomeModel : AliPayBaseModel() {
                 flag = true
             }
         }))
+    }
+
+    /**
+     * 查询某一页的离线记录
+     * @param isDown = true  选中下标0  false 选中下表末尾
+     */
+    fun searchLocalHistory(currentPage: Int, isDown: Boolean, result: (ArrayList<LocalRecordBean>) -> Unit) {
+        mSearchHistoryDisposable = Observable.create<ArrayList<ConsumptionLocalRecordsRequest>> {
+            val whereInfo = WhereInfo.get()
+            whereInfo.limit = 6
+            whereInfo.currentPage = currentPage
+            val consumptionLocalRecordsRequests = SamDBManager.getInstance().dao(ConsumptionLocalRecordsRequest::class.java)
+                    .queryLimit(whereInfo.order(ConsumptionLocalRecordsRequest._timeStamp, false))
+            it.onNext(consumptionLocalRecordsRequests as ArrayList<ConsumptionLocalRecordsRequest>?)
+            it.onComplete()
+        }
+                .takeWhile {
+                    !it.isNullOrEmpty()
+                }
+                .flatMap {
+                    Observable.fromIterable(it)
+                }
+                .map {
+                    val bean = LocalRecordBean()
+                    val time = it.timeStamp.toLong()
+                    bean.businessChannel = it.businessChannel
+                    bean.name = it.userName
+                    bean.time = (time * 1000).forMatTime()
+                    bean.actualAmount = it.arriveAmount.toString()
+                    // 后端给的接口需增加是否同步的字段
+                    bean.isSynchronized = it.isSynchronized
+                    bean.isOffline = CanPointSp.OFFLINE_MODE == it.isOnline
+                    bean.orderId = it.orderId
+                    bean
+                }
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { list ->
+                    val beans = list as ArrayList<LocalRecordBean>
+                    beans[if (isDown) 0 else beans.size - 1].isSelected = true
+                    result.invoke(beans)
+                }
+    }
+
+    fun startQueryOrder(orderId: String, success: (OrderDetailResponse?) -> Unit, error: (Throwable?) -> Unit) {
+        SamApiManager.getInstance().getService(ICanPointApi::class.java).queryOrderDetail(orderId)
+                .compose(applySchedulers(object : BaseRxObserver<OrderDetailResponse>(this) {
+                    override fun onSuccess(d: OrderDetailResponse?, message: String?) {
+                        success.invoke(d)
+                    }
+
+                    override fun onFail(e: Throwable?) {
+                        error.invoke(e)
+                    }
+                }))
+    }
+
+    fun changeDeviceBind(type: String, success: () -> Unit, error: (Throwable?) -> Unit) {
+        if (CanPointSp.patternType == type) return
+        val map = HashMap<String, String>()
+        map["consumerModel"] = type
+        map["deviceName"] = CanPointSp.devicesName
+        map["schoolCode"] = CanPointSp.schoolCode
+        map["storeId"] = CanPointSp.storeId
+        SamApiManager.getInstance().getService(ICanPointApi::class.java).changeDeviceBind(map)
+                .compose(applySchedulers(object : BaseRxObserver<String>(this) {
+                    override fun onSuccess(d: String?, message: String?) {
+                        success.invoke()
+                    }
+
+                    override fun onFail(e: Throwable?) {
+                        error.invoke(e)
+                    }
+                }))
+    }
+
+    fun getDeviceStatisticsByDay(success: (StatisticsByDayResponse) -> Unit, error: (Throwable?) -> Unit) {
+        SamApiManager.getInstance().getService(ICanPointApi::class.java).getDeviceStatisticsByDay()
+                .compose(applySchedulers(object : BaseRxObserver<StatisticsByDayResponse>(this) {
+                    override fun onSuccess(d: StatisticsByDayResponse, message: String?) {
+                        success.invoke(d)
+                    }
+
+                    override fun onFail(e: Throwable?) {
+                        error.invoke(e)
+                    }
+                }))
+    }
+
+    fun changePassWord(newPwd: String, success: () -> Unit, error: (Throwable?) -> Unit) {
+        SamApiManager.getInstance().getService(ICanPointApi::class.java).updatePassword(newPwd)
+                .compose(applySchedulers(object : BaseRxObserver<String>(this) {
+                    override fun onSuccess(d: String?, message: String?) {
+                        success.invoke()
+                    }
+
+                    override fun onFail(e: Throwable?) {
+                        error.invoke(e)
+                    }
+                }))
+    }
+
+    override fun cancel() {
+        super.cancel()
+        mSearchHistoryDisposable?.dispose()
     }
 }

@@ -37,12 +37,7 @@ class InputAmountPresentation(private val mContext: Context, display: Display) :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.presentation_input_amount_price,
-                null,
-                false
-        )
+        mBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.presentation_input_amount_price, null, false)
         setContentView(mBinding.root)
         mViewModel = (mContext as AppCompatActivity).createVM(HomeViewModel::class.java)
         observer()
@@ -71,21 +66,11 @@ class InputAmountPresentation(private val mContext: Context, display: Display) :
                     mBinding.inputEd.setSelection(it.length)
                     mBinding.inputEd.textSize = if (it.length > 5) 60f else 76f
                     if (it.toDouble() > max) {
-                        mBinding.inputEd.setTextColor(
-                                ContextCompat.getColor(
-                                        mContext,
-                                        R.color.text_failed
-                                )
-                        )
+                        mBinding.inputEd.setTextColor(ContextCompat.getColor(mContext, R.color.text_failed))
                         mBinding.errorPriceTv.visibility = View.VISIBLE
                         mBinding.groupTv.visibility = View.GONE
                     } else {
-                        mBinding.inputEd.setTextColor(
-                                ContextCompat.getColor(
-                                        mContext,
-                                        R.color.text_333
-                                )
-                        )
+                        mBinding.inputEd.setTextColor(ContextCompat.getColor(mContext, R.color.text_333))
                         mBinding.errorPriceTv.visibility = View.GONE
                         mBinding.groupTv.visibility = View.VISIBLE
                     }
@@ -284,29 +269,13 @@ class InputAmountPresentation(private val mContext: Context, display: Display) :
 
     private fun initInputPrice(num: String) {
         try {
-            var price = mViewModel.inputPrice.value ?: ""
             val add = mViewModel.addPrice.value ?: ""
             if (!TextUtils.isEmpty(add) || num == NUM_ADD) {
                 //加号运算
                 initAddInput(num)
                 return
             }
-            //输入金额计算
-            val isPoint = num == "."
-            if (isPoint && price.endsWith(".")) return
-            if (num == "0" && price.endsWith("0") && price.startsWith("0")) return
-            price += num
-            if (price == ".") price = "0."
-            if (price.startsWith("0") && !price.contains(".") && price.length > 1)
-                price = price[1].toString()
-            if (price.contains(".") && !price.endsWith(".")) {
-                val split = price.split("\\.".toRegex()).toTypedArray()
-                if (split[0].length > 3 || split[1].length > 2) return
-            } else {
-                if (price.toDouble() > 999 && !isPoint) return
-            }
-            mViewModel.inputPrice.value = price
-            mViewModel.initialPrice = if (TextUtils.isEmpty(price)) "0" else price
+            mViewModel.initInputPrice(num)
         } catch (e: Exception) {
             e.printStackTrace()
         }

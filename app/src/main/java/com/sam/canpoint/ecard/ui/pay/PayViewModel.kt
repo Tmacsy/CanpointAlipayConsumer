@@ -26,6 +26,7 @@ class PayViewModel : BaseViewModel<PayModel>() {
     val close = SingleLiveEvent<String>() //关闭
     val loadingTime = MutableLiveData<String>() //加载中的倒计显示
     private var mCountDownDisposable: Disposable? = null
+    private var mLoadingDisposable: Disposable? = null
 
     init {
         currentDataTime.value = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
@@ -60,8 +61,31 @@ class PayViewModel : BaseViewModel<PayModel>() {
                 })
     }
 
+    fun startLoadingCount(count: Long) {
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+                .take(count + 1)
+                .map { aLong: Long -> count - aLong }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Long?> {
+                    override fun onSubscribe(d: @NonNull Disposable?) {
+                        mLoadingDisposable = d
+                    }
+
+                    override fun onNext(aLong: @NonNull Long?) {
+                        loadingTime.value = "${aLong}S"
+                    }
+
+                    override fun onError(e: @NonNull Throwable?) {}
+                    override fun onComplete() {
+
+                    }
+                })
+    }
+
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         mCountDownDisposable?.dispose()
+        mLoadingDisposable?.dispose()
     }
 }

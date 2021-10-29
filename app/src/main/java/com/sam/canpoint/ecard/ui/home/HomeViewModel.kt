@@ -1,5 +1,6 @@
 package com.sam.canpoint.ecard.ui.home
 
+import android.text.TextUtils
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.alipay.zoloz.smile2pay.InstallCallback
@@ -7,8 +8,7 @@ import com.alipay.zoloz.smile2pay.Zoloz
 import com.alipay.zoloz.smile2pay.ZolozConstants
 import com.alipay.zoloz.smile2pay.verify.Smile2PayResponse
 import com.alipay.zoloz.smile2pay.verify.VerifyCallback
-import com.sam.canpoint.ecard.api.bean.MerchantInfoBean
-import com.sam.canpoint.ecard.api.bean.SmileResult
+import com.sam.canpoint.ecard.api.bean.*
 import com.sam.canpoint.ecard.application.CanPointECardApplication
 import com.sam.canpoint.ecard.ui.presentation.PresentationFactory
 import com.sam.canpoint.ecard.utils.checkPrice
@@ -33,7 +33,6 @@ class HomeViewModel : BaseViewModel<HomeModel>() {
     private var isInitSuccess = false
     private var initSmileDisposable: Disposable? = null
     private var startSmileDisposable: Disposable? = null
-    var faceModel = 1  //刷脸模式
     val inputPrice = MutableLiveData<String>()   //输入金额
     val smileResultLiveData = MutableLiveData<SmileResult>() //刷脸结果
     val showPresentation = MutableLiveData<String>() //副屏展示
@@ -44,6 +43,10 @@ class HomeViewModel : BaseViewModel<HomeModel>() {
     val passWord = MutableLiveData<String>()  //输入密码副屏输入
     val passWordError = SingleLiveEvent<String>() //输入密码失败
     var verifyType = CanPointSp.VERIFY_FUNCTION
+    val updateQuotaMoneySucceed = SingleLiveEvent<String>() //更新新的定额成功
+    val startConfirmOrder = MutableLiveData<OrderDetailResponse?>() //跳转
+    val isUpdateLocalRecord = MutableLiveData<Boolean>() //是否更新本地记录
+    val changePasswordResult = MutableLiveData<Boolean>() //修改密码结果
 
     init {
         zoloz = Zoloz.getInstance(CanPointECardApplication.the())
@@ -157,7 +160,7 @@ class HomeViewModel : BaseViewModel<HomeModel>() {
         if (mode == InputAmountPresentation.FREE_MODE_1) presentationMode.value = InputAmountPresentation.FREE_MODE_2
         else if (mode == InputAmountPresentation.QUOTA_MODE_1) presentationMode.value = InputAmountPresentation.QUOTA_MODE_2
         startSmileDisposable = Observable.create<Smile2PayResponse> {
-            zoloz?.verify(model?.mockConfigInfo(faceModel, price), object : VerifyCallback() {
+            zoloz?.verify(model?.mockConfigInfo(CanPointSp.patternType.toInt(), price), object : VerifyCallback() {
                 override fun onResponse(p0: Smile2PayResponse?) {
                     p0?.let { response ->
                         if (response.code == Smile2PayResponse.CODE_SUCCESS) {
@@ -206,8 +209,55 @@ class HomeViewModel : BaseViewModel<HomeModel>() {
                 })
     }
 
+    /**
+     * 多个副屏需要复用
+     */
+    fun initInputPrice(num: String) {
+        try {
+            var price = inputPrice.value ?: ""
+            //输入金额计算
+            val isPoint = num == "."
+            if (isPoint && price.endsWith(".")) return
+            if (num == "0" && price.endsWith("0") && price.startsWith("0")) return
+            price += num
+            if (price == ".") price = "0."
+            if (price.startsWith("0") && !price.contains(".") && price.length > 1)
+                price = price[1].toString()
+            if (price.contains(".") && !price.endsWith(".")) {
+                val split = price.split("\\.".toRegex()).toTypedArray()
+                if (split[0].length > 3 || split[1].length > 2) return
+            } else {
+                if (price.toDouble() > 999 && !isPoint) return
+            }
+            inputPrice.value = price
+            initialPrice = if (TextUtils.isEmpty(price)) "0" else price
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     fun pwdVerify(pwd: String, success: (String) -> Unit, error: (Throwable?) -> Unit) {
         model?.pwdVerify(pwd, success, error)
+    }
+
+    fun searchLocalHistory(pageNum: Int, isDown: Boolean, result: (ArrayList<LocalRecordBean>) -> Unit) {
+        model?.searchLocalHistory(pageNum, isDown, result)
+    }
+
+    fun startQueryOrder(orderId: String, success: (OrderDetailResponse?) -> Unit, error: (Throwable?) -> Unit) {
+        model?.startQueryOrder(orderId, success, error)
+    }
+
+    fun changeDeviceBind(type: String, success: () -> Unit, error: (Throwable?) -> Unit) {
+        model?.changeDeviceBind(type, success, error)
+    }
+
+    fun getDeviceStatisticsByDay(success: (StatisticsByDayResponse) -> Unit, error: (Throwable?) -> Unit) {
+        model?.getDeviceStatisticsByDay(success, error)
+    }
+
+    fun changePassword(newPwd: String, success: () -> Unit, error: (Throwable?) -> Unit) {
+        model?.changePassWord(newPwd, success, error)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

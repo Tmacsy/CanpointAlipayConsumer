@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.sam.dialog.D.makeRotateLoadingDialog
 import com.sam.system.toast.T
 import com.tyx.base.BaseNetWorkActivity
+import org.greenrobot.eventbus.EventBus
 
 abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : BaseNetWorkActivity(),
         View.OnClickListener {
@@ -68,6 +69,7 @@ abstract class BaseMVVMActivity<V : ViewDataBinding, M : BaseViewModel<*>> : Bas
 
     override fun onDestroy() {
         super.onDestroy()
+        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this)
         if (this@BaseMVVMActivity::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
     }
 

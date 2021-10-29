@@ -59,4 +59,41 @@ interface ICanPointApi {
      */
     @POST("api/consume/verifyPassword")
     fun verifyPassword(@QueryMap map: Map<String, String>): Observable<BaseResponse<String>>
+
+    /**
+     * 通过订单id查询订单详情
+     */
+    @GET("api/consume/queryOrderDetail")
+    fun queryOrderDetail(@Query("orderId") orderId: String): Observable<BaseResponse<OrderDetailResponse>>
+
+    /**
+     * 退款
+     */
+    @POST("api/consume/refund")
+    fun refund(@Query("orderId") orderId: String): Observable<BaseResponse<RefundResultBean>>
+
+    /**
+     * 消费机更新
+     */
+    @POST("api/consume/updateDeviceBind")
+    fun updateDeviceBind(@Query("consumerModel") consumerModel: String?, @Query("deviceName") deviceName: String?,
+                         @Query("schoolCode") schoolCode: String?, @Query("storeId") storeId: String?): Observable<BaseResponse<String>>
+
+    /**
+     * 修改消费模式
+     */
+    @POST("api/consume/updateDeviceBind")
+    fun changeDeviceBind(@QueryMap map: Map<String, String>): Observable<BaseResponse<String>>
+
+    /**
+     * 消费机当日统计
+     */
+    @GET("api/consume/deviceStatisticsByDay")
+    fun getDeviceStatisticsByDay(): Observable<BaseResponse<StatisticsByDayResponse>>
+
+    /**
+     * 修改设备密码
+     */
+    @POST("api/consume/updatePassword")
+    fun updatePassword(@Query("newPwd") newPwd: String): Observable<BaseResponse<String>>
 }

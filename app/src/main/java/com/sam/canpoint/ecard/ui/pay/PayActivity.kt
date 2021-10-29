@@ -10,12 +10,16 @@ import android.view.animation.LinearInterpolator
 import androidx.lifecycle.Observer
 import com.alipay.zoloz.smile2pay.verify.Smile2PayResponse
 import com.sam.canpoint.ecard.R
+import com.sam.canpoint.ecard.api.bean.EventBean
 import com.sam.canpoint.ecard.databinding.ActivityAlipayResultBinding
 import com.sam.canpoint.ecard.manager.IOTManager
 import com.sam.canpoint.ecard.ui.presentation.BasePresentation
 import com.sam.canpoint.ecard.ui.presentation.PresentationFactory
+import com.sam.canpoint.ecard.utils.presentationNetWorkImg
+import com.sam.canpoint.ecard.utils.presenterNetWorkStr
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
+import org.greenrobot.eventbus.EventBus
 
 class PayActivity : BaseMVVMActivity<ActivityAlipayResultBinding, PayViewModel>() {
     override fun getLayoutId(): Int = R.layout.activity_alipay_result
@@ -52,6 +56,9 @@ class PayActivity : BaseMVVMActivity<ActivityAlipayResultBinding, PayViewModel>(
                 }
                 showPresentation()
             })
+            close.observe(this@PayActivity, Observer {
+                finish()
+            })
         }
     }
 
@@ -64,10 +71,11 @@ class PayActivity : BaseMVVMActivity<ActivityAlipayResultBinding, PayViewModel>(
             repeatCount = Animation.INFINITE
             addListener(onAnimationStart = {
                 mBinding.loadingConsLt.visibility = View.VISIBLE
+                mViewModel.startLoadingCount(5)
             }, onAnimationCancel = {
-                mBinding.loadingCountTv.visibility = View.GONE
+                mBinding.loadingConsLt.visibility = View.GONE
             }, onAnimationEnd = {
-                mBinding.loadingCountTv.visibility = View.GONE
+                mBinding.loadingConsLt.visibility = View.GONE
             })
             start()
         }
@@ -81,13 +89,16 @@ class PayActivity : BaseMVVMActivity<ActivityAlipayResultBinding, PayViewModel>(
 
     override fun onNetWorkChange(state: Int) {
         mViewModel.netWorkState.value = state
+        mPresentation?.showNetworkImg(state.presenterNetWorkStr(), state.presentationNetWorkImg())
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mPresentation?.cancelPresentation()
+        mAnimator?.cancel()
         mAnimator = null
         IOTManager.get().showLed("blue", 1)
+        EventBus.getDefault().post(EventBean.RestartSmile())
     }
 
     override fun onClick(v: View?) {

@@ -73,8 +73,21 @@
         <activity
             android:name=".ui.init.SyncDataSucActivity"
             android:screenOrientation="landscape" />
-
-
+        <activity
+            android:name=".ui.pay.PayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.order.ConfirmOrderActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.device.DeviceActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.setting.NetWorkSettingActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.setting.VolumeSettingsActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

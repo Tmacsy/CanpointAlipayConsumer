@@ -47,7 +47,7 @@ class BindAddressViewModel : BaseViewModel<BindAddressModel>() {
 
     private fun initData(addDeviceBindResponse: AddDeviceBindResponse?) {
         addDeviceBindResponse?.let {
-            CanPointSp.deviName = it.deviceName
+            CanPointSp.devicesName = it.deviceName
             CanPointSp.patternType = CanPointSp.FREE_MODE
             CanPointSp.store = it.storeName
             CanPointSp.storeId = it.storeId

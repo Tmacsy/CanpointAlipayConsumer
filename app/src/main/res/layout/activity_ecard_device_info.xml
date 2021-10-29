@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sam="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sam.canpoint.ecard.ui.device.DeviceViewModel" />
+
+        <import type="com.sam.utils.network.NetworkUtils" />
+
+        <import type="com.sam.utils.device.DeviceUtils" />
+
+        <import type="com.sam.utils.app.AppUtils" />
+
+        <import type="com.sam.canpoint.ecard.utils.CanPointSp" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        tools:ignore="MissingDefaultResource">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <com.sam.widget.selector_view.widget.SelectorLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            sam:svRadius="6dp">
+
+            <com.sam.widget.header_bar.LeftImgTitleBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/title_header_bg"
+                android:paddingStart="11dp"
+                android:paddingEnd="11dp"
+                sam:headerBottomLineHeight="0dp"
+                sam:leftImageSrc="@drawable/big_screen_setup_btn_return"
+                sam:titleText="设备信息"
+                sam:titleTextColour="#ff333333"
+                sam:titleTextSize="22sp" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/device_name"
+                        style="@style/DeviceInfoItemStyle"
+                        android:layout_height="46dp"
+                        android:background="@drawable/app_setting_item_bg"
+                        sam:bsiv_rightButtonText="修改"
+                        sam:bsiv_showRightButton="true"
+                        sam:siv_titleText="设备名称"
+                        sam:tsiv_contentText="@{vm.deviceName}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/binding_site"
+                        style="@style/AppSettingsItemStyle"
+                        sam:siv_titleText="绑定门店"
+                        sam:tsiv_contentText="@{vm.bindStore}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/binding_school"
+                        style="@style/DeviceInfoItemStyle"
+                        android:background="@drawable/app_setting_item_bg"
+                        sam:siv_titleText="绑定学校"
+                        sam:tsiv_contentText="@{CanPointSp.INSTANCE.schoolName}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/sn_number"
+                        style="@style/DeviceInfoItemStyle"
+                        sam:leftImageSrc="@drawable/big_screen_setup_btn_return"
+                        sam:siv_titleText="SN"
+                        sam:tsiv_contentText="@{vm.deviceSn}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/app_version_number"
+                        style="@style/DeviceInfoItemStyle"
+                        android:background="@drawable/app_setting_item_bg"
+                        sam:siv_titleText="应用版本号"
+                        sam:tsiv_contentText="@{AppUtils.getAppVersionName()}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/system_version_number"
+                        style="@style/DeviceInfoItemStyle"
+                        sam:siv_titleText="系统版本号"
+                        sam:tsiv_contentText="@{vm.systemVersion}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/face_version_number"
+                        style="@style/DeviceInfoItemStyle"
+                        android:background="@drawable/app_setting_item_bg"
+                        sam:siv_titleText="人脸版本号"
+                        sam:tsiv_contentText="@{vm.faceVersion}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/ip_address"
+                        style="@style/DeviceInfoItemStyle"
+                        sam:siv_titleText="IP"
+                        sam:tsiv_contentText="@{NetworkUtils.getIPAddress(true)}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/mac_address"
+                        style="@style/DeviceInfoItemStyle"
+                        android:background="@drawable/app_setting_item_bg"
+                        sam:siv_titleText="MAC"
+                        sam:tsiv_contentText="@{DeviceUtils.getMacAddress()}" />
+
+                    <com.sam.widget.settings.TextSettingsItemView
+                        android:id="@+id/server_address"
+                        style="@style/DeviceInfoItemStyle"
+                        android:layout_height="46dp"
+                        android:layout_marginBottom="10dp"
+                        sam:bsiv_rightButtonText="修改"
+                        sam:bsiv_showRightButton="true"
+                        sam:siv_titleText="服务器地址"
+                        sam:tsiv_contentText="@{vm.serviceAddress}" />
+                </LinearLayout>
+            </ScrollView>
+        </com.sam.widget.selector_view.widget.SelectorLinearLayout>
+    </LinearLayout>
+</layout>

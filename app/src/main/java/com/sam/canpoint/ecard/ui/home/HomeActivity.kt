@@ -9,12 +9,14 @@ import android.view.KeyEvent
 import androidx.lifecycle.Observer
 import com.alipay.zoloz.smile2pay.verify.Smile2PayResponse
 import com.sam.canpoint.ecard.R
+import com.sam.canpoint.ecard.api.bean.EventBean
 import com.sam.canpoint.ecard.databinding.ActivityHomeBinding
 import com.sam.canpoint.ecard.keyboard.IKeyBoardCallback
 import com.sam.canpoint.ecard.keyboard.KeyBoardEvent
 import com.sam.canpoint.ecard.keyboard.KeyBoardManager
 import com.sam.canpoint.ecard.keyboard.KeyBoardType
 import com.sam.canpoint.ecard.reveiver.TimeChangeReceiver
+import com.sam.canpoint.ecard.ui.order.ConfirmOrderActivity
 import com.sam.canpoint.ecard.ui.pay.PayActivity
 import com.sam.canpoint.ecard.ui.presentation.BasePresentation
 import com.sam.canpoint.ecard.ui.presentation.PresentationFactory
@@ -22,8 +24,11 @@ import com.sam.canpoint.ecard.ui.presentation.PresentationFactory.INPUT_AMOUNT
 import com.sam.canpoint.ecard.utils.presentationNetWorkImg
 import com.sam.canpoint.ecard.utils.presenterNetWorkStr
 import com.sam.canpoint.ecard.utils.CanPointSp
+import com.sam.system.log.L
 import com.tyx.base.mvvm.BaseMVVMActivity
 import com.tyx.base.mvvm.ktx.createVM
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.HashMap
@@ -38,6 +43,7 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding, HomeViewModel>() {
 
     override fun initView() {
         super.initView()
+        EventBus.getDefault().register(this)
         mBinding.vm = mViewModel
         setEnableNetworkCheck(true)
         observer()
@@ -84,7 +90,21 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding, HomeViewModel>() {
             showPresentation.observe(this@HomeActivity, Observer {
                 showPresentation(it)
             })
+            startConfirmOrder.observe(this@HomeActivity, Observer {
+                ConfirmOrderActivity.start(this@HomeActivity, it)
+            })
+            updateQuotaMoneySucceed.observe(this@HomeActivity, Observer {
+                inputPrice.value = CanPointSp.quotaMoney
+                mViewModel.startSmile()
+            })
         }
+    }
+
+    @Subscribe  //刷脸结果返回 重置刷脸页面
+    fun restartSmile(event: EventBean.RestartSmile) {
+        val presentationMode = mViewModel.presentationMode.value
+        if (presentationMode == InputAmountPresentation.QUOTA_MODE_2) mHandler.sendMessageDelayed(mHandler.obtainMessage(START_SMILE), 320)
+        else if (presentationMode == InputAmountPresentation.FREE_MODE_2) mViewModel.presentationMode.value = InputAmountPresentation.FREE_MODE_1
     }
 
     override fun onResume() {
@@ -108,11 +128,8 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding, HomeViewModel>() {
                         verifyType = CanPointSp.VERIFY_FUNCTION
                     }
                     KeyBoardType.CONFIRM -> startSmile()
-                    KeyBoardType.SETTING -> {
-
-                    }
-                    else -> {
-                    }
+                    KeyBoardType.SETTING -> mViewModel.showPresentation.value = PresentationFactory.SETTING
+                    else -> L.d("no event to do")
                 }
             }
         }

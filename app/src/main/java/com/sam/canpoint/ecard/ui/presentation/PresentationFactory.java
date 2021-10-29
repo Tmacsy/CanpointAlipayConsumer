@@ -7,9 +7,23 @@ import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.sam.canpoint.ecard.ui.device.DeviceInfoPresentation;
+import com.sam.canpoint.ecard.ui.home.AppSettingPresentation;
+import com.sam.canpoint.ecard.ui.home.CashRegisterPatternPresentation;
+import com.sam.canpoint.ecard.ui.setting.ChangePasswordResultPresentation;
+import com.sam.canpoint.ecard.ui.home.DebtSettingPresentation;
+import com.sam.canpoint.ecard.ui.home.FunctionPresentation;
 import com.sam.canpoint.ecard.ui.home.InputAmountPresentation;
 import com.sam.canpoint.ecard.ui.home.InputPassWordPresentation;
+import com.sam.canpoint.ecard.ui.home.LocalRecordPresentation;
+import com.sam.canpoint.ecard.ui.home.StatisticsPresentation;
 import com.sam.canpoint.ecard.ui.init.RegisterPresentation;
+import com.sam.canpoint.ecard.ui.order.ConfirmOrderPresentation;
+import com.sam.canpoint.ecard.ui.pay.PayPresentation;
+import com.sam.canpoint.ecard.ui.refund.RefundResultPresentation;
+import com.sam.canpoint.ecard.ui.setting.ChangePasswordPresentation;
+import com.sam.canpoint.ecard.ui.setting.NetworkSettingPresentation;
+import com.sam.canpoint.ecard.ui.setting.VolumeSettingsPresentation;
 import com.sam.canpoint.ecard.ui.splash.SplashPresentation;
 
 import java.util.Objects;
@@ -23,7 +37,6 @@ public class PresentationFactory implements IPresentationFactory {
     public static final String INPUT_PASS_WORD = "inputPassWord"; //输入密码
     public static final String SETTING = "setting"; //设置
     public static final String DEVICES_INFO = "devicesInfo"; //设备信息
-    public static final String CONSUME_PATTERN = "consumePattern"; //消费模式
     public static final String VOLUME_SETTINGS = "volumeSettings"; //音量设置
     public static final String REFUND_RESULT = "refundResult"; //退款结果
     public static final String FUNCTION = "function"; //功能
@@ -58,54 +71,51 @@ public class PresentationFactory implements IPresentationFactory {
             case INPUT_AMOUNT:
                 presentation = new InputAmountPresentation(activity, displays[1]);
                 break;
-//            case ALI_PAY_RESULT:
-//                presentation = new AliPayResultPresentation(activity, displays[1]);
-//                break;
+            case ALI_PAY_RESULT:
+                presentation = new PayPresentation(activity, displays[1]);
+                break;
             case INPUT_PASS_WORD:
                 presentation = new InputPassWordPresentation(activity, displays[1]);
                 break;
-//            case SETTING:
-//                presentation = new AppSettingPresentation(activity, displays[1]);
-//                break;
-//            case DEVICES_INFO:
-//                presentation = new DeviceInfoPresentation(activity, displays[1]);
-//                break;
-//            case CONSUME_PATTERN:
-//                presentation = new ConsumePatternPresentation(activity, displays[1]);
-//                break;
-//            case VOLUME_SETTINGS:
-//                presentation = new VolumeSettingsPresentation(activity, displays[1]);
-//                break;
-//            case REFUND_RESULT:
-//                presentation = new RefundResultPresentation(activity, displays[1]);
-//                break;
-//            case FUNCTION:
-//                presentation = new FunctionPresentation(activity, displays[1]);
-//                break;
-//            case LOCAL_RECORD:
-//                presentation = new LocalRecordPresentation(activity, displays[1]);
-//                break;
-//            case CASH_REGISTER_PATTERN:
-//                presentation = new CashRegisterPatternPresentation(activity, displays[1]);
-//                break;
-//            case STATISTICS:
-//                presentation = new StatisticsPresentation(activity, displays[1]);
-//                break;
-//            case CONFIRM_ORDER:
-//                presentation = new ConfirmOrderPresentation(activity, displays[1]);
-//                break;
-//            case NETWORK_SETTING:
-//                presentation = new NetworkSettingPresentation(activity, displays[1]);
-//                break;
-//            case CHANGE_PASSWORD:
-//                presentation = new ChangePasswordPresentation(activity, displays[1]);
-//                break;
-//            case DEBT_SETTING:
-//                presentation = new DebtSettingPresentation(activity, displays[1]);
-//                break;
-//            case CHANGE_PASSWORD_RESULT:
-//                presentation = new ChangePasswordResultPresentation(activity, displays[1]);
-//                break;
+            case SETTING:
+                presentation = new AppSettingPresentation(activity, displays[1]);
+                break;
+            case DEVICES_INFO:
+                presentation = new DeviceInfoPresentation(activity, displays[1]);
+                break;
+            case VOLUME_SETTINGS:
+                presentation = new VolumeSettingsPresentation(activity, displays[1]);
+                break;
+            case REFUND_RESULT:
+                presentation = new RefundResultPresentation(activity, displays[1]);
+                break;
+            case FUNCTION:
+                presentation = new FunctionPresentation(activity, displays[1]);
+                break;
+            case LOCAL_RECORD:
+                presentation = new LocalRecordPresentation(activity, displays[1]);
+                break;
+            case CASH_REGISTER_PATTERN:
+                presentation = new CashRegisterPatternPresentation(activity, displays[1]);
+                break;
+            case STATISTICS:
+                presentation = new StatisticsPresentation(activity, displays[1]);
+                break;
+            case CONFIRM_ORDER:
+                presentation = new ConfirmOrderPresentation(activity, displays[1]);
+                break;
+            case NETWORK_SETTING:
+                presentation = new NetworkSettingPresentation(activity, displays[1]);
+                break;
+            case CHANGE_PASSWORD:
+                presentation = new ChangePasswordPresentation(activity, displays[1]);
+                break;
+            case DEBT_SETTING:
+                presentation = new DebtSettingPresentation(activity, displays[1]);
+                break;
+            case CHANGE_PASSWORD_RESULT:
+                presentation = new ChangePasswordResultPresentation(activity, displays[1]);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

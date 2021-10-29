@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sam="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:ignore="MissingDefaultResource">
+
+        <com.sam.widget.selector_view.widget.SelectorLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            sam:svRadius="8dp">
+
+            <com.sam.widget.header_bar.LeftImgTitleBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/title_header_bg"
+                android:paddingStart="11dp"
+                android:paddingEnd="11dp"
+                sam:headerBottomLineHeight="0dp"
+                sam:leftImageSrc="@drawable/big_screen_setup_btn_return"
+                sam:titleText="音量设置"
+                sam:titleTextColour="#ff333333"
+                sam:titleTextSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="20dp"
+                android:text="音量"
+                android:textColor="@color/text_333"
+                android:textSize="19sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="13dp"
+                android:background="@drawable/app_setting_item_bg"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/big_ic_volume" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/volume_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="15"
+                    android:maxHeight="4dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:progressDrawable="@drawable/bg_system_item_seek_bar"
+                    android:thumb="@drawable/seek_bar_thumb" />
+
+                <TextView
+                    android:id="@+id/volume_seek_bar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="100%"
+                    android:textColor="@color/app_primary_bg"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </com.sam.widget.selector_view.widget.SelectorLinearLayout>
+
+    </LinearLayout>
+</layout>

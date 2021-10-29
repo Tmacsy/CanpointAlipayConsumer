@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="19dp"
-                        android:text="@{CanPointSp.INSTANCE.deviName}"
+                        android:text="@{CanPointSp.INSTANCE.devicesName}"
                         android:textColor="@color/text_ccc"
                         android:textSize="15sp"
                         tools:text="人脸消费机01" />
