@@ -171,13 +171,6 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding, HomeViewModel>() {
         }
     }
 
-    private fun cancelPresentation(type: String) {
-        if (presentationMap.containsKey(type)) {
-            val presentation = presentationMap[type]
-            presentation?.cancelPresentation()
-        }
-    }
-
     private class HomeHandler(activity: HomeActivity) : Handler(Looper.getMainLooper()) {
         private val mActivity = WeakReference(activity)
         override fun dispatchMessage(msg: Message?) {

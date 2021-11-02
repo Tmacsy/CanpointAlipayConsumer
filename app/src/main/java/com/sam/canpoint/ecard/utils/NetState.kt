@@ -27,7 +27,7 @@ fun Int.presenterNetWorkStr(): String {
 
 
 fun Int.presentationNetWorkImg(): Int {
-    return return when (this) {
+    return when (this) {
         BaseNetWorkActivity.NetworkStateDef.WIFI, BaseNetWorkActivity.NetworkStateDef.MOBILE -> R.drawable.small_screen_wifi
         BaseNetWorkActivity.NetworkStateDef.ETHERNET -> R.drawable.small_screen_home_ic_wire_online
         BaseNetWorkActivity.NetworkStateDef.NO_NET_WORK -> R.drawable.small_screen_home_ic_nowifi
